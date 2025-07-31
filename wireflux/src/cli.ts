@@ -5,9 +5,10 @@ import path from "path";
 import fs from "fs";
 import { generateFromConfig } from "./generator";
 import { WirefluxConfig } from "./types";
+import { findConfigFile, loadConfig } from "./config-loader";
 
 const packageJson = JSON.parse(
-  fs.readFileSync(path.resolve(process.cwd(), "package.json"), "utf8")
+  fs.readFileSync(path.resolve(__dirname, "../package.json"), "utf8")
 );
 
 const program = new Command();
@@ -19,25 +20,26 @@ program
 
 program
   .command("generate")
-  .description("Generate fetch client from wireflux.config.js")
-  .option("-c, --config <path>", "Path to config file", "wireflux.config.js")
+  .description("Generate fetch client from wireflux config file")
+  .option("-c, --config <path>", "Path to config file")
   .action(async (options) => {
     try {
-      const configPath = path.resolve(process.cwd(), options.config);
+      const configPath = await findConfigFile(options.config);
 
-      if (!fs.existsSync(configPath)) {
-        console.error(`❌ Config file not found: ${configPath}`);
-        console.log(
-          `💡 Create a ${options.config} file using defineConfig from wireflux`
-        );
+      if (!configPath) {
+        console.error(`❌ Config file not found. Tried:`);
+        const possibleConfigs = options.config
+          ? [options.config]
+          : ["wireflux.config.ts", "wireflux.config.js"];
+        possibleConfigs.forEach((name) => console.log(`   - ${name}`));
+        console.log(`💡 Create a config file using defineConfig from wireflux`);
         process.exit(1);
       }
 
       console.log(`📖 Loading config from: ${configPath}`);
 
-      // Dynamic import to load the config
-      const configModule = await import(configPath);
-      const config: WirefluxConfig = configModule.default || configModule;
+      // Load the config with TypeScript support
+      const config = await loadConfig(configPath);
 
       if (!config) {
         console.error(`❌ No default export found in config file`);
@@ -55,16 +57,34 @@ program
 
 program
   .command("init")
-  .description("Initialize a new wireflux.config.ts file")
-  .action(() => {
-    const configPath = path.resolve(process.cwd(), "wireflux.config.ts");
+  .description("Initialize a new wireflux config file")
+  .option("--js", "Create JavaScript config file instead of TypeScript")
+  .action((options) => {
+    const isJs = options.js;
+    const configFileName = isJs ? "wireflux.config.js" : "wireflux.config.ts";
+    const configPath = path.resolve(process.cwd(), configFileName);
 
     if (fs.existsSync(configPath)) {
       console.error(`❌ Config file already exists: ${configPath}`);
       process.exit(1);
     }
 
-    const configTemplate = `import { defineConfig } from "wireflux";
+    let configTemplate: string;
+
+    if (isJs) {
+      configTemplate = `const { defineConfig } = require("wireflux");
+
+module.exports = defineConfig({
+  input: "./openapi.json", // Path to your OpenAPI schema
+  targetFolder: "./src/api", // Where to generate the client
+  fetchClient: "./lib/fetch-client", // Your fetch client implementation
+  apiError: "./lib/api-error", // Your API error class
+  baseUrl: "http://localhost:3000/api",
+  supportedMethods: ["get", "post", "put", "delete", "patch"],
+});
+`;
+    } else {
+      configTemplate = `import { defineConfig } from "wireflux";
 
 export default defineConfig({
   input: "./openapi.json", // Path to your OpenAPI schema
@@ -75,9 +95,10 @@ export default defineConfig({
   supportedMethods: ["get", "post", "put", "delete", "patch"],
 });
 `;
+    }
 
     fs.writeFileSync(configPath, configTemplate);
-    console.log(`✅ Created ${configPath}`);
+    console.log(`✅ Created ${configFileName}`);
     console.log(
       `💡 Edit the config file and run 'wireflux generate' to get started!`
     );

@@ -4,7 +4,7 @@
   "private": true,
   "description": "Examples for Wireflux CLI",
   "scripts": {
-    "generate": "wireflux generate --config wireflux.config.js"
+    "generate": "wireflux generate"
   },
   "dependencies": {
     "wireflux": "workspace:*",

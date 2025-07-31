@@ -1,6 +1,6 @@
-const { defineConfig } = require("wireflux");
+import { defineConfig } from "wireflux";
 
-module.exports = defineConfig({
+export default defineConfig({
   input: "./openapi.json", // Path to your OpenAPI schema
   targetFolder: "./generated", // Where to generate the client
   fetchClient: "./super-fetch", // Your fetch client implementation
