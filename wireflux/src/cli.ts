@@ -6,17 +6,21 @@ import fs from "fs";
 import { generateFromConfig } from "./generator";
 import { WirefluxConfig } from "./types";
 
+const packageJson = JSON.parse(
+  fs.readFileSync(path.resolve(process.cwd(), "package.json"), "utf8")
+);
+
 const program = new Command();
 
 program
   .name("wireflux")
-  .description("Generate fetch clients from OpenAPI schemas")
-  .version("1.0.0");
+  .description(packageJson.description)
+  .version(packageJson.version);
 
 program
   .command("generate")
-  .description("Generate fetch client from wireflux.config.ts")
-  .option("-c, --config <path>", "Path to config file", "wireflux.config.ts")
+  .description("Generate fetch client from wireflux.config.js")
+  .option("-c, --config <path>", "Path to config file", "wireflux.config.js")
   .action(async (options) => {
     try {
       const configPath = path.resolve(process.cwd(), options.config);
