@@ -1,25 +1,27 @@
-import { OpenAPIV3_1 as OpenAPI } from "openapi-types";
+import type { OpenAPIV3_1 as OpenAPI } from 'openapi-types';
 
 // Schema generation functions
 export function generateZodSchema(schema: OpenAPI.SchemaObject): string {
   if (schema.enum) {
-    return `z.enum([${schema.enum.map((v) => `"${v}"`).join(", ")}])`;
+    return `z.enum([${schema.enum.map((v) => `"${v}"`).join(', ')}])`;
   }
 
   switch (schema.type) {
-    case "string":
-      return "z.string()";
-    case "number":
-    case "integer":
-      return "z.number()";
-    case "boolean":
-      return "z.boolean()";
-    case "array":
-      if (!schema.items) return "z.array(z.any())";
+    case 'string':
+      return 'z.string()';
+    case 'number':
+    case 'integer':
+      return 'z.number()';
+    case 'boolean':
+      return 'z.boolean()';
+    case 'array':
+      if (!schema.items) {
+        return 'z.array(z.any())';
+      }
       return `z.array(${generateZodSchema(
         schema.items as OpenAPI.SchemaObject
       )})`;
-    case "object": {
+    case 'object': {
       const props = schema.properties ?? {};
       const required = schema.required ?? [];
 
@@ -34,22 +36,24 @@ export function generateZodSchema(schema: OpenAPI.SchemaObject): string {
             : `${zodSchema}.optional()`;
           return `  ${key}: ${finalSchema}`;
         })
-        .join(",\n");
+        .join(',\n');
 
       return `z.object({\n${shape}\n})`;
     }
     default:
-      return "z.any()";
+      return 'z.any()';
   }
 }
 
 export function generateParameterSchema(
   parameters: OpenAPI.ParameterObject[],
-  paramType: "path" | "query"
+  paramType: 'path' | 'query'
 ): { schema: string; type: string } | null {
   const filteredParams = parameters.filter((param) => param.in === paramType);
 
-  if (filteredParams.length === 0) return null;
+  if (filteredParams.length === 0) {
+    return null;
+  }
 
   const props = filteredParams
     .map((param) => {
@@ -60,7 +64,7 @@ export function generateParameterSchema(
         : `${zodSchema}.optional()`;
       return `  ${param.name}: ${finalSchema}`;
     })
-    .join(",\n");
+    .join(',\n');
 
   return {
     schema: `z.object({\n${props}\n})`,
@@ -71,8 +75,10 @@ export function generateParameterSchema(
 export function generateRequestBodySchema(
   requestBody: OpenAPI.RequestBodyObject
 ): string | null {
-  const jsonContent = requestBody.content["application/json"];
-  if (!jsonContent?.schema) return null;
+  const jsonContent = requestBody.content['application/json'];
+  if (!jsonContent?.schema) {
+    return null;
+  }
 
   return generateZodSchema(jsonContent.schema as OpenAPI.SchemaObject);
 }
@@ -86,13 +92,13 @@ export function generateResponseSchema(responses: OpenAPI.ResponsesObject): {
 
   for (const [statusCode, response] of Object.entries(responses)) {
     const responseObj = response as OpenAPI.ResponseObject;
-    if (responseObj.content?.["application/json"]?.schema) {
-      const schema = responseObj.content["application/json"]
+    if (responseObj.content?.['application/json']?.schema) {
+      const schema = responseObj.content['application/json']
         .schema as OpenAPI.SchemaObject;
       const zodSchema = generateZodSchema(schema);
 
       // Check if it's a success response (2xx) or error response (4xx, 5xx)
-      const code = parseInt(statusCode);
+      const code = Number.parseInt(statusCode, 10);
       if (code >= 200 && code < 300) {
         successSchemas.push({
           statusCode,

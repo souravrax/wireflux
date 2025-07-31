@@ -1,5 +1,5 @@
-import { ApiError } from "./api-error";
-import { Result } from "wireflux";
+import type { Result } from 'wireflux';
+import { ApiError } from './api-error';
 
 async function getHeaders() {
   // In a real app, you might get headers from your framework
@@ -11,13 +11,13 @@ export async function fetchClient<T>(
   url: string,
   init?: RequestInit
 ): Promise<Result<T>> {
-  const headers = await getHeaders();
+  const _headers = await getHeaders();
   try {
     const response = await fetch(url, {
       ...init,
-      credentials: "include",
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...init?.headers,
       },
     });
@@ -35,13 +35,13 @@ export async function fetchClient<T>(
         data: null,
         error: new ApiError(errorData),
       };
-    } catch (e) {
+    } catch (_e) {
       return {
         data: null,
         error: new ApiError({
           status: 500,
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Internal server error",
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Internal server error',
           timestamp: new Date().toISOString(),
           path: url,
         }),

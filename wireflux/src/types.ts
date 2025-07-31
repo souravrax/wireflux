@@ -31,9 +31,10 @@ export interface WirefluxConfig {
   includeTypes?: boolean;
 }
 
-export interface UserFetchClient {
-  <T>(url: string, init?: RequestInit): Promise<Result<T, any>>;
-}
+export type UserFetchClient = <T>(
+  url: string,
+  init?: RequestInit
+) => Promise<Result<T, any>>;
 
 export interface UserApiError {
   new (error: any): Error;

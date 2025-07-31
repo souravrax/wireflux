@@ -1,11 +1,11 @@
-import { GenerationContext } from "./generation-types";
-import { WirefluxConfig } from "./types";
-import { getClientFunctionName } from "./utils";
+import type { GenerationContext } from './generation-types';
+import type { WirefluxConfig } from './types';
+import { getClientFunctionName } from './utils';
 
 // Fetch client generation functions
 export function generateFetchClient(
   context: GenerationContext,
-  config: WirefluxConfig
+  _config: WirefluxConfig
 ): string {
   const {
     operationId,
@@ -21,16 +21,16 @@ export function generateFetchClient(
   const clientFnName = getClientFunctionName(operationId);
 
   // Determine what parameters this operation needs
-  const pathParams = parameters?.filter((p) => p.in === "path") || [];
-  const queryParams = parameters?.filter((p) => p.in === "query") || [];
+  const pathParams = parameters?.filter((p) => p.in === 'path') || [];
+  const queryParams = parameters?.filter((p) => p.in === 'query') || [];
   const hasPathParams = pathParams.length > 0;
   const hasQueryParams = queryParams.length > 0;
   const hasRequestBody = !!requestBody;
 
   // Find the success response type (200, 201, etc.)
-  let successResponseType = "unknown";
+  let successResponseType = 'unknown';
   if (responses) {
-    const successCodes = ["200", "201", "202", "204"];
+    const successCodes = ['200', '201', '202', '204'];
     const successCode = successCodes.find((code) => responses[code]);
     if (successCode) {
       successResponseType = `${fnName}Response${successCode}`;
@@ -39,33 +39,39 @@ export function generateFetchClient(
 
   // Generate parameter interface
   const paramTypes: string[] = [];
-  if (hasPathParams) paramTypes.push(`path: ${fnName}RequestPath`);
-  if (hasQueryParams) paramTypes.push(`query?: ${fnName}RequestQuery`);
-  if (hasRequestBody) paramTypes.push(`body: ${fnName}RequestBody`);
-  paramTypes.push("throwOnError?: boolean");
-  paramTypes.push("fetchConfig?: RequestInit");
+  if (hasPathParams) {
+    paramTypes.push(`path: ${fnName}RequestPath`);
+  }
+  if (hasQueryParams) {
+    paramTypes.push(`query?: ${fnName}RequestQuery`);
+  }
+  if (hasRequestBody) {
+    paramTypes.push(`body: ${fnName}RequestBody`);
+  }
+  paramTypes.push('throwOnError?: boolean');
+  paramTypes.push('fetchConfig?: RequestInit');
 
   const paramsInterface =
     paramTypes.length > 2 // More than just throwOnError and fetchConfig
-      ? `{\n  ${paramTypes.join(",\n  ")}\n}`
-      : "{ throwOnError?: boolean; fetchConfig?: RequestInit }";
+      ? `{\n  ${paramTypes.join(',\n  ')}\n}`
+      : '{ throwOnError?: boolean; fetchConfig?: RequestInit }';
 
   // Generate URL construction
   let urlConstruction = `const url = \`${path}\``;
   if (hasPathParams) {
     // Replace path parameters in the URL template
     let urlTemplate = path;
-    pathParams.forEach((param) => {
+    for (const param of pathParams) {
       urlTemplate = urlTemplate.replace(
         `{${param.name}}`,
         `\${path.${param.name}}`
       );
-    });
+    }
     urlConstruction = `const url = \`${urlTemplate}\``;
   }
 
   // Generate query parameters handling
-  let queryHandling = "";
+  let queryHandling = '';
   if (hasQueryParams) {
     queryHandling = `
   // Handle query parameters
@@ -80,7 +86,7 @@ export function generateFetchClient(
   const queryString = searchParams.toString();
   const finalUrl = queryString ? \`\${url}?\${queryString}\` : url;`;
   } else {
-    queryHandling = "\n  const finalUrl = url;";
+    queryHandling = '\n  const finalUrl = url;';
   }
 
   // Generate fetch options
@@ -105,14 +111,14 @@ export function generateFetchClient(
   const paramDeclaration =
     paramTypes.length > 2 // More than just throwOnError and fetchConfig
       ? `params: ${paramsInterface}`
-      : "params: { throwOnError?: boolean; fetchConfig?: RequestInit } = {}";
+      : 'params: { throwOnError?: boolean; fetchConfig?: RequestInit } = {}';
 
   const paramExtraction =
     paramTypes.length > 2 // More than just throwOnError and fetchConfig
       ? `
-  const { ${hasPathParams ? "path, " : ""}${hasQueryParams ? "query, " : ""}${
-          hasRequestBody ? "body, " : ""
-        }throwOnError, fetchConfig } = params;`
+  const { ${hasPathParams ? 'path, ' : ''}${hasQueryParams ? 'query, ' : ''}${
+    hasRequestBody ? 'body, ' : ''
+  }throwOnError, fetchConfig } = params;`
       : `
   const { throwOnError, fetchConfig } = params;`;
 
@@ -122,15 +128,15 @@ export function generateFetchClient(
   // Generate TSDoc comment
   const tsdocLines = [
     summary ? ` * ${summary}` : ` * ${method} ${path}`,
-    description && ` * `,
+    description && ' * ',
     description && ` * ${description}`,
-    ` * `,
-    ` * @param params - Request parameters`,
-    ` * @param params.throwOnError - If true, throws ApiError instead of returning it as value`,
+    ' * ',
+    ' * @param params - Request parameters',
+    ' * @param params.throwOnError - If true, throws ApiError instead of returning it as value',
     ` * @returns Promise<Result<${successResponseType}>> - Result with data or error`,
   ].filter(Boolean);
 
-  const tsdocComment = `/**\n${tsdocLines.join("\n")}\n */`;
+  const tsdocComment = `/**\n${tsdocLines.join('\n')}\n */`;
 
   return `
 ${tsdocComment}

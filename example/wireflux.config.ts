@@ -1,10 +1,10 @@
-import { defineConfig } from "wireflux";
+import { defineConfig } from 'wireflux';
 
 export default defineConfig({
-  input: "./openapi.json", // Path to your OpenAPI schema
-  targetFolder: "./generated", // Where to generate the client
-  fetchClient: "./super-fetch", // Your fetch client implementation
-  apiError: "./api-error", // Your API error class
-  baseUrl: "http://localhost:3000/api",
-  supportedMethods: ["get", "post", "put", "delete", "patch"],
+  input: './openapi.json', // Path to your OpenAPI schema
+  targetFolder: './generated', // Where to generate the client
+  fetchClient: './super-fetch', // Your fetch client implementation
+  apiError: './api-error', // Your API error class
+  baseUrl: 'http://localhost:3000/api',
+  supportedMethods: ['get', 'post', 'put', 'delete', 'patch'],
 });

@@ -3,22 +3,22 @@
 
 // ApiError class with useful methods (also serves as the type)
 export class ApiError extends Error {
-  public readonly status: number;
-  public readonly code:
-    | "BAD_REQUEST"
-    | "VALIDATION_ERROR"
-    | "INVALID_INPUT"
-    | "MISSING_FIELD"
-    | "DB_FOREIGN_KEY_ERROR"
-    | "UNAUTHORIZED"
-    | "FORBIDDEN"
-    | "NOT_FOUND"
-    | "CONFLICT"
-    | "INTERNAL_SERVER_ERROR"
-    | "SERVICE_UNAVAILABLE";
-  public readonly timestamp: string;
-  public readonly path?: string;
-  public readonly errors?: Array<{
+  readonly status: number;
+  readonly code:
+    | 'BAD_REQUEST'
+    | 'VALIDATION_ERROR'
+    | 'INVALID_INPUT'
+    | 'MISSING_FIELD'
+    | 'DB_FOREIGN_KEY_ERROR'
+    | 'UNAUTHORIZED'
+    | 'FORBIDDEN'
+    | 'NOT_FOUND'
+    | 'CONFLICT'
+    | 'INTERNAL_SERVER_ERROR'
+    | 'SERVICE_UNAVAILABLE';
+  readonly timestamp: string;
+  readonly path?: string;
+  readonly errors?: Array<{
     field: string;
     message: string;
     code?: string;
@@ -26,7 +26,7 @@ export class ApiError extends Error {
 
   constructor(error: {
     status: number;
-    code: ApiError["code"];
+    code: ApiError['code'];
     message: string;
     timestamp: string;
     path?: string;
@@ -37,7 +37,7 @@ export class ApiError extends Error {
     }>;
   }) {
     super(error.message);
-    this.name = "ApiError";
+    this.name = 'ApiError';
     this.status = error.status;
     this.code = error.code;
     this.timestamp = error.timestamp;
@@ -68,7 +68,7 @@ export class ApiError extends Error {
    * Check if this is a validation error
    */
   isValidationError(): boolean {
-    return this.code === "VALIDATION_ERROR" || this.code === "INVALID_INPUT";
+    return this.code === 'VALIDATION_ERROR' || this.code === 'INVALID_INPUT';
   }
 
   /**

@@ -1,4 +1,4 @@
-import { WirefluxConfig } from "./types";
+import type { WirefluxConfig } from './types';
 
 /**
  * Define configuration for Wireflux
@@ -14,13 +14,13 @@ export function defineConfig(config: WirefluxConfig): WirefluxConfig {
  */
 export const DEFAULT_CONFIG: Partial<WirefluxConfig> = {
   supportedMethods: [
-    "get",
-    "post",
-    "put",
-    "delete",
-    "patch",
-    "options",
-    "head",
+    'get',
+    'post',
+    'put',
+    'delete',
+    'patch',
+    'options',
+    'head',
   ] as const,
   includeTypes: true,
 };

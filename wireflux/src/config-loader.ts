@@ -1,22 +1,19 @@
-import fs from "fs";
-import path from "path";
-import { resolve } from "path";
-import { register } from "ts-node";
-import { WirefluxConfig } from "./types";
+import fs from 'node:fs';
+import path, { resolve } from 'node:path';
+import { register } from 'ts-node';
+import type { WirefluxConfig } from './types';
 
 /**
  * Supported config file names in order of preference
  */
-const CONFIG_FILES = ["wireflux.config.ts", "wireflux.config.js"] as const;
+const CONFIG_FILES = ['wireflux.config.ts', 'wireflux.config.js'] as const;
 
 /**
  * Find a config file in the current working directory
  * @param customPath - Optional custom path to config file
  * @returns Path to the config file or null if not found
  */
-export async function findConfigFile(
-  customPath?: string
-): Promise<string | null> {
+export function findConfigFile(customPath?: string): string | null {
   const cwd = process.cwd();
 
   if (customPath) {
@@ -40,17 +37,17 @@ export async function findConfigFile(
  * @param configPath - Path to the config file
  * @returns The loaded configuration
  */
-export async function loadConfig(configPath: string): Promise<WirefluxConfig> {
+export function loadConfig(configPath: string): WirefluxConfig {
   const ext = path.extname(configPath);
 
   try {
     // For TypeScript files, register ts-node first
-    if (ext === ".ts") {
+    if (ext === '.ts') {
       // Register ts-node for TypeScript support
       register({
         transpileOnly: true,
         compilerOptions: {
-          module: "CommonJS",
+          module: 'CommonJS',
           allowSyntheticDefaultImports: true,
           esModuleInterop: true,
         },

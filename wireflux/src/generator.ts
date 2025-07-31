@@ -1,22 +1,22 @@
-import { OpenAPIV3_1 as OpenAPI } from "openapi-types";
-import fs from "fs";
-import path from "path";
-import { WirefluxConfig } from "./types";
-import { DEFAULT_CONFIG } from "./config";
-import { getFunctionName } from "./utils";
-import { generateFileTemplate, createFileContent } from "./template-generator";
+import fs from 'node:fs';
+import path from 'node:path';
+import type { OpenAPIV3_1 as OpenAPI } from 'openapi-types';
+import { DEFAULT_CONFIG } from './config';
 import {
   ensureDirectoryExists,
-  writeOperationFile,
   writeIndexFile,
-} from "./file-utils";
-import { GenerationContext } from "./generation-types";
+  writeOperationFile,
+} from './file-utils';
+import type { GenerationContext } from './generation-types';
+import { createFileContent, generateFileTemplate } from './template-generator';
+import type { WirefluxConfig } from './types';
+import { getFunctionName } from './utils';
 
 // Main generation functions
 async function loadOpenAPISpec(input: string): Promise<OpenAPI.Document> {
   try {
     // Check if input is a URL
-    if (input.startsWith("http://") || input.startsWith("https://")) {
+    if (input.startsWith('http://') || input.startsWith('https://')) {
       const response = await fetch(input);
       if (!response.ok) {
         throw new Error(`Failed to fetch OpenAPI spec: ${response.statusText}`);
@@ -30,7 +30,7 @@ async function loadOpenAPISpec(input: string): Promise<OpenAPI.Document> {
       throw new Error(`OpenAPI spec file not found: ${filePath}`);
     }
 
-    const fileContent = fs.readFileSync(filePath, "utf-8");
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
     return JSON.parse(fileContent) as OpenAPI.Document;
   } catch (error) {
     throw new Error(`Error loading OpenAPI spec from ${input}: ${error}`);
@@ -47,7 +47,7 @@ function extractOperationContext(
   if (!operationId) {
     throw new Error(
       `Operation ID is required for ${method.toUpperCase()} ${pathUrl} - ${
-        operation.summary || "Unknown operation"
+        operation.summary || 'Unknown operation'
       }`
     );
   }
@@ -72,13 +72,16 @@ async function generateOperationFiles(
   const operationIds: string[] = [];
   const supportedMethods =
     config.supportedMethods || DEFAULT_CONFIG.supportedMethods || [];
+  const promises: Promise<void>[] = [];
 
   if (!spec.paths) {
-    throw new Error("No paths found in OpenAPI specification");
+    throw new Error('No paths found in OpenAPI specification');
   }
 
   for (const [pathUrl, pathItem] of Object.entries(spec.paths)) {
-    if (!pathItem) continue;
+    if (!pathItem) {
+      continue;
+    }
 
     for (const method of supportedMethods) {
       const operation = pathItem[
@@ -86,31 +89,22 @@ async function generateOperationFiles(
       ] as OpenAPI.OperationObject;
       if (
         !operation ||
-        typeof operation !== "object" ||
+        typeof operation !== 'object' ||
         Array.isArray(operation)
-      )
+      ) {
         continue;
-
-      try {
-        const context = extractOperationContext(pathUrl, method, operation);
-        const template = generateFileTemplate(context, config);
-        const content = createFileContent(template);
-
-        await writeOperationFile(
-          context.operationId,
-          content,
-          config.targetFolder
-        );
-        operationIds.push(context.operationId);
-      } catch (error) {
-        console.error(
-          `❌ Error generating ${method.toUpperCase()} ${pathUrl}:`,
-          error
-        );
-        throw error;
       }
+      const context = extractOperationContext(pathUrl, method, operation);
+      const template = generateFileTemplate(context, config);
+      const content = createFileContent(template);
+
+      promises.push(
+        writeOperationFile(context.operationId, content, config.targetFolder)
+      );
+      operationIds.push(context.operationId);
     }
   }
+  await Promise.all(promises);
 
   return operationIds;
 }
@@ -118,36 +112,23 @@ async function generateOperationFiles(
 export async function generateFromConfig(
   config: WirefluxConfig
 ): Promise<void> {
-  try {
-    console.log("🚀 Starting OpenAPI code generation...");
-    console.log(`📡 Loading spec from: ${config.input}`);
-
-    // Validate required user dependencies
-    if (!config.fetchClient) {
-      throw new Error("fetchClient path is required in config");
-    }
-    if (!config.apiError) {
-      throw new Error("apiError path is required in config");
-    }
-
-    // Load OpenAPI specification
-    const spec = await loadOpenAPISpec(config.input);
-
-    // Ensure output directory exists
-    await ensureDirectoryExists(config.targetFolder);
-    console.log(`📁 Output directory: ${config.targetFolder}`);
-
-    // Generate operation files
-    const operationIds = await generateOperationFiles(spec, config);
-
-    // Generate index file
-    await writeIndexFile(operationIds, config.targetFolder);
-
-    console.log(
-      `\n✅ Generated ${operationIds.length} operation files successfully!`
-    );
-  } catch (error) {
-    console.error("❌ Generation failed:", error);
-    throw error;
+  // Validate required user dependencies
+  if (!config.fetchClient) {
+    throw new Error('fetchClient path is required in config');
   }
+  if (!config.apiError) {
+    throw new Error('apiError path is required in config');
+  }
+
+  // Load OpenAPI specification
+  const spec = await loadOpenAPISpec(config.input);
+
+  // Ensure output directory exists
+  await ensureDirectoryExists(config.targetFolder);
+
+  // Generate operation files
+  const operationIds = await generateOperationFiles(spec, config);
+
+  // Generate index file
+  await writeIndexFile(operationIds, config.targetFolder);
 }

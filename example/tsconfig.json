@@ -11,11 +11,6 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "generated"
-  ]
+  "include": ["**/*"],
+  "exclude": ["node_modules", "generated"]
 }

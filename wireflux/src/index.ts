@@ -1,10 +1,10 @@
 // Main exports for Wireflux
 
-export { defineConfig } from "./config";
+export { defineConfig } from './config';
+export { generateFromConfig } from './generator';
 export type {
-  WirefluxConfig,
   Result,
-  UserFetchClient,
   UserApiError,
-} from "./types";
-export { generateFromConfig } from "./generator";
+  UserFetchClient,
+  WirefluxConfig,
+} from './types';

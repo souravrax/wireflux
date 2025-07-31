@@ -1,6 +1,6 @@
-import { promises as fs } from "fs";
-import path from "path";
-import { createIndexContent } from "./template-generator";
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+import { createIndexContent } from './template-generator';
 
 // File system utilities
 export async function ensureDirectoryExists(dirPath: string): Promise<void> {
@@ -19,17 +19,15 @@ export async function writeOperationFile(
   const fileName = `${operationId}.ts`;
   const filePath = path.join(targetFolder, fileName);
 
-  await fs.writeFile(filePath, content, "utf-8");
-  console.log(`✓ Generated ${fileName}`);
+  await fs.writeFile(filePath, content, 'utf-8');
 }
 
 export async function writeIndexFile(
   operationIds: string[],
   targetFolder: string
 ): Promise<void> {
-  const indexPath = path.join(targetFolder, "index.ts");
+  const indexPath = path.join(targetFolder, 'index.ts');
   const content = createIndexContent(operationIds);
 
-  await fs.writeFile(indexPath, content, "utf-8");
-  console.log("✓ Generated index.ts");
+  await fs.writeFile(indexPath, content, 'utf-8');
 }
