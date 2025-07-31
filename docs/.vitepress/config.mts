@@ -8,40 +8,61 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' },
+      { text: 'Guide', link: '/getting-started' },
+      { text: 'API Reference', link: '/api' },
+      { text: 'Examples', link: '/api-examples' },
     ],
 
     sidebar: [
       {
-        text: 'Docs',
+        text: 'Getting Started',
         items: [
-          { text: 'Getting Started', link: '/getting-started' },
-          { text: 'CLI', link: '/cli' },
-          { text: 'API', link: '/api' },
+          { text: 'Introduction', link: '/getting-started' },
+          { text: 'Configuration', link: '/configuration' },
+          { text: 'CLI Usage', link: '/cli' },
+        ],
+      },
+      {
+        text: 'Reference',
+        items: [
+          { text: 'API Reference', link: '/api' },
+          { text: 'Code Examples', link: '/api-examples' },
           { text: 'FAQ', link: '/faq' },
+        ],
+      },
+      {
+        text: 'Community',
+        items: [
           { text: 'Contributing', link: '/contributing' },
           { text: 'Changelog', link: '/changelog' },
-          { text: 'License', link: '/license' },
-          { text: 'Security', link: '/security' },
-          { text: 'Privacy', link: '/privacy' },
         ],
       },
       {
-        text: 'Guide',
+        text: 'Legal',
         items: [
-          { text: 'Getting Started', link: '/getting-started' },
-          { text: 'Configuration', link: '/configuration' },
-          { text: 'CLI', link: '/cli' },
+          { text: 'License', link: '/license' },
+          { text: 'Security Policy', link: '/security' },
+          { text: 'Privacy Policy', link: '/privacy' },
         ],
-      },
-      {
-        text: 'Examples',
-        items: [{ text: 'API Examples', link: '/api-examples' }],
       },
     ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/ternarysearch/wireflux' },
     ],
+
+    footer: {
+      message: 'Released under the ISC License.',
+      copyright: 'Copyright © 2024 Wireflux Contributors',
+    },
+
+    editLink: {
+      pattern: 'https://github.com/ternarysearch/wireflux/edit/main/docs/:path',
+      text: 'Edit this page on GitHub',
+    },
+
+    search: {
+      provider: 'local',
+    },
   },
 });

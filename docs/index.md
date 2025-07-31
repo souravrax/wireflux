@@ -16,9 +16,9 @@ hero:
 
 features:
   - title: "Type-Safe API"
-    details: "Generate fully typed fetch clients from your OpenAPI specification, ensuring type safety and reducing runtime errors."
-  - title: "Easy to Use"
-    details: "A simple and intuitive CLI that makes generating clients a breeze. Get started in minutes."
-  - title: "Configurable"
-    details: "Customize the generated client to your needs with a simple configuration file."
+    details: "Generate fully typed fetch clients from your OpenAPI specification with TypeScript support and Zod schema validation."
+  - title: "Result Pattern"
+    details: "Built-in error handling using the Result pattern - no more uncaught exceptions. Every API call returns Result<T, E>."
+  - title: "Configurable & Flexible"
+    details: "Bring your own fetch client and error handling. Customize the generated client with a simple configuration file."
 ---

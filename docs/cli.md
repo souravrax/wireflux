@@ -20,20 +20,27 @@ npx wireflux [command] [options]
 
 ## `generate` Command
 
-The core of the CLI is the `generate` command, which creates the fetch client based on your OpenAPI specification.
+The core of the CLI is the `generate` command, which creates the fetch client based on your wireflux configuration file.
 
 ```bash
-wireflux generate <path-to-openapi-spec> [options]
+wireflux generate [options]
 ```
-
-### Arguments
-
-*   `<path-to-openapi-spec>`: The path to your OpenAPI specification file (e.g., `openapi.json`). This is a required argument.
 
 ### Options
 
-*   `--output <path>`: Specify the output directory for the generated client. By default, it's `./generated`.
-*   `--config <path>`: Provide a path to a custom configuration file. The default is `wireflux.config.js`.
+- `--config <path>` or `-c <path>`: Provide a path to a custom configuration file. By default, it looks for `wireflux.config.ts` or `wireflux.config.js` in the current directory.
+
+## `init` Command
+
+The `init` command creates a new wireflux configuration file in your project.
+
+```bash
+wireflux init [options]
+```
+
+### Options
+
+- `--js`: Create a JavaScript configuration file (`wireflux.config.js`) instead of TypeScript (`wireflux.config.ts`).
 
 ## Configuration
 
@@ -41,7 +48,7 @@ For more advanced control over the generated client, you can use a `wireflux.con
 
 ```javascript
 // wireflux.config.js
-import { defineConfig } from 'wireflux';
+import { defineConfig } from "wireflux";
 
 export default defineConfig({
   // Your configuration options here
@@ -50,47 +57,63 @@ export default defineConfig({
 
 ### Available Options
 
-*   `supportedMethods`: An array of HTTP methods to generate clients for. 
-    *   **Default**: `['get', 'post', 'put', 'delete', 'patch', 'options', 'head']`
-*   `includeTypes`: A boolean indicating whether to include TypeScript types in the generated client. 
-    *   **Default**: `true`
+- `supportedMethods`: An array of HTTP methods to generate clients for.
+  - **Default**: `['get', 'post', 'put', 'delete', 'patch', 'options', 'head']`
+- `includeTypes`: A boolean indicating whether to include TypeScript types in the generated client.
+  - **Default**: `true`
 
 ## Example Usage
 
-Here's a practical example of how to use the CLI to generate a client:
+Here's a practical example of how to use the CLI:
 
 ```bash
-# Generate a client from openapi.json into the ./src/client directory
-wireflux generate openapi.json --output ./src/client
+# Initialize a new wireflux project
+wireflux init
+
+# Generate a client using the default config file
+wireflux generate
+
+# Generate a client using a custom config file
+wireflux generate --config ./custom-wireflux.config.ts
+
+# Initialize a JavaScript config instead of TypeScript
+wireflux init --js
 ```
 
-This command will create a client in the `./src/client` directory with the default settings. You can then import the generated functions in your application.
+This will create a client based on your configuration file settings. You can then import the generated functions in your application.
 
 ## Using the Generated Client
 
-Once the client is generated, you can import and use the functions in your code. Each endpoint in your OpenAPI specification will have a corresponding function in the generated client.
+Once the client is generated, you can import and use the functions in your code. Each endpoint in your OpenAPI specification will have a corresponding function that returns a `Result<T, E>` type.
 
 ```typescript
 // Example: src/api/users.ts
-import { getUsers, createUser } from '../client';
+import { getUsers, createUser } from "../generated";
+import type { ApiError } from "../lib/api-error";
 
 async function fetchUsers() {
-  try {
-    const users = await getUsers();
-    console.log('Users:', users);
-  } catch (error) {
-    console.error('Error fetching users:', error);
+  const { data: users, error } = await getUsers();
+
+  if (error) {
+    console.error("Error fetching users:", error.message);
+    return;
   }
+
+  console.log("Users:", users);
 }
 
 async function addUser(name: string, email: string) {
-  try {
-    const newUser = await createUser({ name, email });
-    console.log('New user created:', newUser);
-  } catch (error) {
-    console.error('Error creating user:', error);
+  const { data: newUser, error } = await createUser({
+    body: { name, email },
+  });
+
+  if (error) {
+    console.error("Error creating user:", error.message);
+    return;
   }
+
+  console.log("New user created:", newUser);
 }
 ```
 
-This provides a fully typed and easy-to-use client for interacting with your API, improving developer experience and reducing the risk of runtime errors.
+This provides a fully typed and safe client using the Result pattern, improving developer experience and reducing the risk of runtime errors.
