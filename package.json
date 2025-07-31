@@ -9,10 +9,14 @@
     "cli": "pnpm --filter wireflux",
     "wireflux": "node packages/wireflux/dist/cli.js",
     "clean": "pnpm -r exec rm -rf dist node_modules",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitepress": "^1.6.3"
   },
   "packageManager": "pnpm@10.12.1"
 }
