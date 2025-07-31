@@ -5,21 +5,20 @@ layout: home
 hero:
   name: "Wireflux"
   text: "CLI tool to generate fetch clients from OpenAPI schemas"
-  tagline: My great project tagline
+  tagline: A CLI tool for generating type-safe fetch clients from OpenAPI specifications.
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get Started
+      link: /getting-started
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: View on GitHub
+      link: https://github.com/ternarysearch/wireflux
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: "Type-Safe API"
+    details: "Generate fully typed fetch clients from your OpenAPI specification, ensuring type safety and reducing runtime errors."
+  - title: "Easy to Use"
+    details: "A simple and intuitive CLI that makes generating clients a breeze. Get started in minutes."
+  - title: "Configurable"
+    details: "Customize the generated client to your needs with a simple configuration file."
 ---
-
