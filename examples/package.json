@@ -1,0 +1,17 @@
+{
+  "name": "wireflux-examples",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Examples for Wireflux CLI",
+  "scripts": {
+    "generate": "wireflux generate --config wireflux.config.js"
+  },
+  "dependencies": {
+    "wireflux": "workspace:*",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

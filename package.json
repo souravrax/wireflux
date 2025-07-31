@@ -1,0 +1,18 @@
+{
+  "name": "wireflux-workspace",
+  "version": "1.0.0",
+  "description": "Workspace for Wireflux CLI tool",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -r dev",
+    "cli": "pnpm --filter wireflux",
+    "wireflux": "node packages/wireflux/dist/cli.js",
+    "clean": "pnpm -r exec rm -rf dist node_modules",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "pnpm@10.12.1"
+}

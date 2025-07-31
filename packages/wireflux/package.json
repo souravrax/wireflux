@@ -1,0 +1,34 @@
+{
+  "name": "wireflux",
+  "version": "0.0.1",
+  "description": "CLI tool to generate fetch clients from OpenAPI schemas",
+  "main": "dist/index.js",
+  "bin": {
+    "wireflux": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "openapi",
+    "fetch",
+    "client",
+    "generator",
+    "cli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.0.0",
+    "openapi-types": "^12.1.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ]
+}
