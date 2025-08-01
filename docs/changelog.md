@@ -144,5 +144,5 @@ To suggest changes for the changelog:
 
 - [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
-- [GitHub Releases](https://github.com/ternarysearch/wireflux/releases)
+- [GitHub Releases](https://github.com/souravrax/wireflux/releases)
 - [npm Package](https://www.npmjs.com/package/wireflux)

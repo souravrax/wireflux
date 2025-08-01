@@ -12,7 +12,7 @@ hero:
       link: /getting-started
     - theme: alt
       text: View on GitHub
-      link: https://github.com/ternarysearch/wireflux
+      link: https://github.com/souravrax/wireflux
 
 features:
   - title: "Type-Safe API"

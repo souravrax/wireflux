@@ -218,7 +218,7 @@ As a global open source project:
 
 For privacy-related inquiries:
 
-- **GitHub Issues**: [https://github.com/ternarysearch/wireflux/issues](https://github.com/ternarysearch/wireflux/issues)
+- **GitHub Issues**: [https://github.com/souravrax/wireflux/issues](https://github.com/souravrax/wireflux/issues)
 - **Maintainers**: See [Contributing Guide](./contributing.md)
 - **Security**: See [Security Policy](./security.md)
 

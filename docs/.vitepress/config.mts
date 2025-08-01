@@ -51,7 +51,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/ternarysearch/wireflux' },
+      { icon: 'github', link: 'https://github.com/souravrax/wireflux' },
     ],
 
     footer: {
@@ -60,7 +60,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/ternarysearch/wireflux/edit/main/docs/:path',
+      pattern: 'https://github.com/souravrax/wireflux/edit/main/docs/:path',
       text: 'Edit this page on GitHub',
     },
 

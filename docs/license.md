@@ -108,14 +108,14 @@ The MIT License is compatible with:
 
 ## Full License Text
 
-The complete license text is available in the [LICENSE](https://github.com/ternarysearch/wireflux/blob/main/LICENSE) file in the repository root.
+The complete license text is available in the [LICENSE](https://github.com/souravrax/wireflux/blob/main/LICENSE) file in the repository root.
 
 ## Questions?
 
 If you have questions about licensing:
 
 1. Check the [FAQ](./faq.md) for common licensing questions
-2. Open an issue on [GitHub](https://github.com/ternarysearch/wireflux/issues)
+2. Open an issue on [GitHub](https://github.com/souravrax/wireflux/issues)
 3. Contact the maintainers
 
 ## Legal Notice
