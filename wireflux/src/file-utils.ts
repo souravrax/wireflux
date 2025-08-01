@@ -1,6 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { createIndexContent } from './template-generator';
+import { createIndexContent } from './template-generator.js';
 
 // File system utilities
 export async function ensureDirectoryExists(dirPath: string): Promise<void> {

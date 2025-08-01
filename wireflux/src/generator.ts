@@ -1,16 +1,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { OpenAPIV3_1 as OpenAPI } from 'openapi-types';
-import { DEFAULT_CONFIG } from './config';
+import { DEFAULT_CONFIG } from './config.js';
+import type { WirefluxConfig } from './config-loader.js';
 import {
   ensureDirectoryExists,
   writeIndexFile,
   writeOperationFile,
-} from './file-utils';
-import type { GenerationContext } from './generation-types';
-import { createFileContent, generateFileTemplate } from './template-generator';
-import type { WirefluxConfig } from './types';
-import { getFunctionName } from './utils';
+} from './file-utils.js';
+import type { GenerationContext } from './generation-types.js';
+import {
+  createFileContent,
+  generateFileTemplate,
+} from './template-generator.js';
+import { getFunctionName } from './utils.js';
 
 // Main generation functions
 async function loadOpenAPISpec(input: string): Promise<OpenAPI.Document> {

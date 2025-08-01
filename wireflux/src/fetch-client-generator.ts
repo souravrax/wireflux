@@ -1,6 +1,6 @@
-import type { GenerationContext } from './generation-types';
-import type { WirefluxConfig } from './types';
-import { getClientFunctionName } from './utils';
+import type { WirefluxConfig } from './config-loader.js';
+import type { GenerationContext } from './generation-types.js';
+import { getClientFunctionName } from './utils.js';
 
 // Fetch client generation functions
 export function generateFetchClient(

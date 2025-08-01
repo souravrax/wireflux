@@ -1,4 +1,4 @@
-import type { WirefluxConfig } from './types';
+import type { WirefluxConfig } from './config-loader.js';
 
 /**
  * Define configuration for Wireflux

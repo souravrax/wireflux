@@ -1,68 +1,123 @@
-import fs from 'node:fs';
-import path, { resolve } from 'node:path';
-import { register } from 'ts-node';
-import type { WirefluxConfig } from './types';
+import { existsSync, unlinkSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { buildSync } from 'esbuild';
+import { z } from 'zod';
 
-/**
- * Supported config file names in order of preference
- */
-const CONFIG_FILES = ['wireflux.config.ts', 'wireflux.config.js'] as const;
-
-/**
- * Find a config file in the current working directory
- * @param customPath - Optional custom path to config file
- * @returns Path to the config file or null if not found
- */
-export function findConfigFile(customPath?: string): string | null {
-  const cwd = process.cwd();
-
-  if (customPath) {
-    const resolvedPath = path.resolve(cwd, customPath);
-    return fs.existsSync(resolvedPath) ? resolvedPath : null;
-  }
-
-  // Try default config files in order
-  for (const configFile of CONFIG_FILES) {
-    const configPath = path.resolve(cwd, configFile);
-    if (fs.existsSync(configPath)) {
-      return configPath;
-    }
-  }
-
-  return null;
+export interface WirefluxConfig {
+  input: string;
+  targetFolder: string;
+  fetchClient: string;
+  apiError: string;
+  supportedMethods?: readonly string[];
+  baseUrl?: string;
+  includeTypes?: boolean;
 }
 
-/**
- * Load configuration from a TypeScript or JavaScript file
- * @param configPath - Path to the config file
- * @returns The loaded configuration
- */
-export function loadConfig(configPath: string): WirefluxConfig {
-  const ext = path.extname(configPath);
+const configSchema = z.object({
+  input: z.string(),
+  targetFolder: z.string(),
+  fetchClient: z.string(),
+  apiError: z.string(),
+  supportedMethods: z.array(z.string()).optional(),
+  baseUrl: z.string().optional(),
+  includeTypes: z.boolean().optional(),
+});
+
+type ConfigExport =
+  | WirefluxConfig
+  | { config: WirefluxConfig }
+  | { default: WirefluxConfig };
+
+export async function loadConfig(configPath?: string): Promise<WirefluxConfig> {
+  const file = resolveConfigPath(configPath);
+  const ext = path.extname(file);
+
+  let configModule: ConfigExport;
+
+  if (ext === '.ts') {
+    configModule = await loadTSConfig(file);
+  } else {
+    const exists = existsSync(file);
+    if (!exists) {
+      // eslint-disable-next-line no-console
+      console.error(`❌ Config file not found: ${file}`);
+      process.exit(1);
+    }
+    // Use dynamic import for all file types to support ES modules
+    const fileUrl = pathToFileURL(file).href;
+    configModule = await import(fileUrl);
+  }
+
+  const config: WirefluxConfig =
+    (configModule as { default?: WirefluxConfig }).default ??
+    (configModule as { config?: WirefluxConfig }).config ??
+    (configModule as WirefluxConfig);
+
+  const result = configSchema.safeParse(config);
+  if (!result.success) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid config format:', result.error.format());
+    process.exit(1);
+  }
+
+  console.info('✅ Config loaded successfully');
+
+  return result.data;
+}
+
+function resolveConfigPath(provided?: string): string {
+  const candidates = [
+    provided,
+    'wireflux.config.ts',
+    'wireflux.config.js',
+  ].filter(Boolean) as string[];
+
+  for (const candidate of candidates) {
+    const full = path.resolve(candidate);
+    if (existsSync(full)) {
+      return full;
+    }
+  }
+
+  // eslint-disable-next-line no-console
+  console.error(`❌ Config file not found in: ${candidates.join(', ')}`);
+  process.exit(1);
+}
+
+async function loadTSConfig(tsFile: string): Promise<ConfigExport> {
+  const result = buildSync({
+    entryPoints: [tsFile],
+    format: 'esm',
+    target: 'node18',
+    bundle: true,
+    write: false,
+    platform: 'node',
+  });
+
+  if (result.errors.length > 0) {
+    console.error('❌ TypeScript compilation failed:', result.errors);
+    process.exit(1);
+  }
+
+  // Create a temporary JS file in system temp directory
+  const configName = path.basename(tsFile, '.ts');
+  const tempJsFile = path.join(
+    tmpdir(),
+    `wireflux-${configName}-${Date.now()}.mjs`
+  );
+  const jsCode = result.outputFiles[0].text;
 
   try {
-    // For TypeScript files, register ts-node first
-    if (ext === '.ts') {
-      // Register ts-node for TypeScript support
-      register({
-        transpileOnly: true,
-        compilerOptions: {
-          module: 'CommonJS',
-          allowSyntheticDefaultImports: true,
-          esModuleInterop: true,
-        },
-      });
+    writeFileSync(tempJsFile, jsCode);
+    const fileUrl = pathToFileURL(tempJsFile).href;
+    const mod = await import(fileUrl);
+    return mod;
+  } finally {
+    // Clean up the temporary file
+    if (existsSync(tempJsFile)) {
+      unlinkSync(tempJsFile);
     }
-
-    // For both TypeScript and JavaScript files, use require after clearing cache
-    const resolvedPath = resolve(configPath);
-
-    // Clear require cache to ensure fresh load
-    delete require.cache[resolvedPath];
-
-    const configModule = require(resolvedPath);
-    return configModule.default || configModule;
-  } catch (error) {
-    throw new Error(`Failed to load config from ${configPath}: ${error}`);
   }
 }

@@ -1,6 +1,6 @@
 // Core types for Wireflux
 
-export type Result<V, E = any> =
+export type Result<V, E = unknown> =
   | {
       data: V;
       error: null;
@@ -10,32 +10,11 @@ export type Result<V, E = any> =
       error: E;
     };
 
-export interface WirefluxConfig {
-  /** Input OpenAPI schema file path or URL */
-  input: string;
-
-  /** Target folder where generated files will be placed */
-  targetFolder: string;
-
-  /** Path to the user's fetch client (must return Result<T, E>) */
-  fetchClient: string;
-
-  /** Path to the user's API Error class */
-  apiError: string;
-
-  /** Supported HTTP methods (optional, defaults to all) */
-  supportedMethods?: readonly string[];
-
-  /** Additional configuration options */
-  baseUrl?: string;
-  includeTypes?: boolean;
-}
-
 export type UserFetchClient = <T>(
   url: string,
   init?: RequestInit
-) => Promise<Result<T, any>>;
+) => Promise<Result<T, unknown>>;
 
 export interface UserApiError {
-  new (error: any): Error;
+  new (error: unknown): Error;
 }

@@ -6,6 +6,9 @@
       "recommended": true,
       "style": {
         "useConst": "off"
+      },
+      "suspicious": {
+        "noConsole": "off"
       }
     }
   }

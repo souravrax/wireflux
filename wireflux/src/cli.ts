@@ -2,9 +2,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Command } from 'commander';
-import { findConfigFile, loadConfig } from './config-loader';
-import { generateFromConfig } from './generator';
+import { loadConfig } from './config-loader.js';
+import { generateFromConfig } from './generator.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const packageJson = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8')
@@ -23,24 +27,26 @@ program
   .option('-c, --config <path>', 'Path to config file')
   .action(async (options) => {
     try {
-      const configPath = await findConfigFile(options.config);
+      // Load the config with automatic path resolution and validation
+      const config = await loadConfig(options.config);
 
-      if (!configPath) {
-        const possibleConfigs = options.config
-          ? [options.config]
-          : ['wireflux.config.ts', 'wireflux.config.js'];
-        possibleConfigs.forEach((_name) => {});
-        process.exit(1);
-      }
-
-      // Load the config with TypeScript support
-      const config = await loadConfig(configPath);
-
-      if (!config) {
-        process.exit(1);
-      }
+      // eslint-disable-next-line no-console
+      console.log('✅ Config loaded successfully');
+      // eslint-disable-next-line no-console
+      console.log('🚀 Generating API client...');
       await generateFromConfig(config);
-    } catch (_error) {
+      // eslint-disable-next-line no-console
+      console.log('✅ API client generated successfully');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(
+        '❌ Generation failed:',
+        error instanceof Error ? error.message : String(error)
+      );
+      if (process.env.DEBUG) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
       process.exit(1);
     }
   });
