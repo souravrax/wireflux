@@ -1,0 +1,21 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Thicker, smoother crossing wires -->
+    <path d="M25 50 C85 50, 115 150, 175 150" stroke="#0057FF" stroke-width="20" fill="none"
+        stroke-linecap="round" />
+    <path d="M25 150 C85 150, 115 50, 175 50" stroke="#0057FF" stroke-width="20" fill="none"
+        stroke-linecap="round" />
+
+    <!-- Input terminals -->
+    <circle cx="25" cy="50" r="20" fill="#0057FF" />
+    <circle cx="25" cy="150" r="20" fill="#0057FF" />
+
+    <!-- Output terminals -->
+    <circle cx="175" cy="50" r="20" fill="#FF3366" />
+    <circle cx="175" cy="150" r="20" fill="#FF3366" />
+
+    <!-- Central transformer node -->
+    <g>
+        <circle cx="100" cy="100" r="20" fill="#0057FF" />
+        <circle cx="100" cy="100" r="10" fill="white" />
+    </g>
+</svg>

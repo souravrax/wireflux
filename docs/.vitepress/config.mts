@@ -2,9 +2,12 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  lang: 'en-US',
   title: 'Wireflux',
   description: 'CLI tool to generate fetch clients from OpenAPI schemas',
   themeConfig: {
+    i18nRouting: false,
+    logo: '/logo.svg',
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
