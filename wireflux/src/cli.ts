@@ -27,24 +27,18 @@ program
   .option('-c, --config <path>', 'Path to config file')
   .action(async (options) => {
     try {
-      // Load the config with automatic path resolution and validation
       const config = await loadConfig(options.config);
 
-      // eslint-disable-next-line no-console
       console.log('✅ Config loaded successfully');
-      // eslint-disable-next-line no-console
       console.log('🚀 Generating API client...');
       await generateFromConfig(config);
-      // eslint-disable-next-line no-console
       console.log('✅ API client generated successfully');
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(
         '❌ Generation failed:',
         error instanceof Error ? error.message : String(error)
       );
       if (process.env.DEBUG) {
-        // eslint-disable-next-line no-console
         console.error(error);
       }
       process.exit(1);

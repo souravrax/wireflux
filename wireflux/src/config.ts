@@ -1,4 +1,4 @@
-import type { WirefluxConfig } from './config-loader.js';
+import type { WirefluxConfig } from './types.js';
 
 /**
  * Define configuration for Wireflux
@@ -9,11 +9,12 @@ export function defineConfig(config: WirefluxConfig): WirefluxConfig {
   return config;
 }
 
-/**
- * Default configuration values
- */
-export const DEFAULT_CONFIG: WirefluxConfig = [
-  {
-    input: 'default/fetch-client.ts',
-  }
-]
+export const DEFAULT_ACCEPT_METHODS = [
+  'get',
+  'post',
+  'put',
+  'patch',
+  'delete',
+  'options',
+  'head',
+];
