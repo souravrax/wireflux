@@ -3,34 +3,13 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
-import { z } from 'zod';
+import {
+  type ConfigExport,
+  type WirefluxConfig,
+  wirefluxConfigSchema,
+} from './types.js';
 
-export interface WirefluxConfig {
-  input: string;
-  targetFolder: string;
-  fetchClient: string;
-  apiError: string;
-  supportedMethods?: readonly string[];
-  baseUrl?: string;
-  includeTypes?: boolean;
-}
-
-const configSchema = z.object({
-  input: z.string(),
-  targetFolder: z.string(),
-  fetchClient: z.string(),
-  apiError: z.string(),
-  supportedMethods: z.array(z.string()).optional(),
-  baseUrl: z.string().optional(),
-  includeTypes: z.boolean().optional(),
-});
-
-type ConfigExport =
-  | WirefluxConfig
-  | { config: WirefluxConfig }
-  | { default: WirefluxConfig };
-
-export async function loadConfig(configPath?: string): Promise<WirefluxConfig> {
+export async function loadConfig(configPath?: string) {
   const file = resolveConfigPath(configPath);
   const ext = path.extname(file);
 
@@ -39,13 +18,6 @@ export async function loadConfig(configPath?: string): Promise<WirefluxConfig> {
   if (ext === '.ts') {
     configModule = await loadTSConfig(file);
   } else {
-    const exists = existsSync(file);
-    if (!exists) {
-      // eslint-disable-next-line no-console
-      console.error(`❌ Config file not found: ${file}`);
-      process.exit(1);
-    }
-    // Use dynamic import for all file types to support ES modules
     const fileUrl = pathToFileURL(file).href;
     configModule = await import(fileUrl);
   }
@@ -55,14 +27,11 @@ export async function loadConfig(configPath?: string): Promise<WirefluxConfig> {
     (configModule as { config?: WirefluxConfig }).config ??
     (configModule as WirefluxConfig);
 
-  const result = configSchema.safeParse(config);
+  const result = wirefluxConfigSchema.safeParse(config);
   if (!result.success) {
-    // eslint-disable-next-line no-console
-    console.error('Invalid config format:', result.error.format());
+    console.error('❌ Invalid config format:', result.error.format());
     process.exit(1);
   }
-
-  console.info('✅ Config loaded successfully');
 
   return result.data;
 }
@@ -77,6 +46,7 @@ function resolveConfigPath(provided?: string): string {
   for (const candidate of candidates) {
     const full = path.resolve(candidate);
     if (existsSync(full)) {
+      console.info(`✅ Using config ${candidate}`);
       return full;
     }
   }

@@ -12,15 +12,8 @@ export function defineConfig(config: WirefluxConfig): WirefluxConfig {
 /**
  * Default configuration values
  */
-export const DEFAULT_CONFIG: Partial<WirefluxConfig> = {
-  supportedMethods: [
-    'get',
-    'post',
-    'put',
-    'delete',
-    'patch',
-    'options',
-    'head',
-  ] as const,
-  includeTypes: true,
-};
+export const DEFAULT_CONFIG: WirefluxConfig = [
+  {
+    input: 'default/fetch-client.ts',
+  }
+]

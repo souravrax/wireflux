@@ -1,11 +1,11 @@
-import type { WirefluxConfig } from './config-loader.js';
-import { generateFetchClient } from './fetch-client-generator.js';
-import type { FileTemplate, GenerationContext } from './generation-types.js';
+import type { WirefluxConfig } from './config-loader';
+import { generateFetchClient } from './fetch-client-generator';
+import type { FileTemplate, GenerationContext } from './generation-types';
 import {
   generateParameterSchema,
   generateRequestBodySchema,
   generateResponseSchema,
-} from './schema-generators.js';
+} from './schema-generators';
 
 export function generateFileTemplate(
   context: GenerationContext,

@@ -1,9 +1,20 @@
 import type { Result } from 'wireflux';
-import { ApiError } from './api-error';
+import ApiError from './api-error';
+
+export function createUnhandledError(url: string) {
+  return new ApiError({
+    status: 500,
+    code: 'INTERNAL_SERVER_ERROR',
+    message: 'Internal server error',
+    timestamp: new Date().toISOString(),
+    path: url,
+  });
+}
 
 export default async function fetchClient<T>(
   url: string,
-  init?: RequestInit
+  init?: RequestInit,
+  throwOnError?: boolean
 ): Promise<Result<T>> {
   try {
     const response = await fetch(url, {
@@ -22,23 +33,23 @@ export default async function fetchClient<T>(
       error: null,
     };
   } catch (e) {
-    try {
-      const errorData = await (e as Response).json();
-      return {
-        data: null,
-        error: new ApiError(errorData),
-      };
-    } catch (_e) {
-      return {
-        data: null,
-        error: new ApiError({
-          status: 500,
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Internal server error',
-          timestamp: new Date().toISOString(),
-          path: url,
-        }),
-      };
-    }
+    return (e as Response)
+      .json()
+      .then((errorData) => {
+        return {
+          data: null,
+          error: new ApiError(errorData),
+        };
+      })
+      .catch(() => {
+        const unhandledError = createUnhandledError(url);
+        if (throwOnError) {
+          throw unhandledError;
+        }
+        return {
+          data: null,
+          error: unhandledError,
+        };
+      });
   }
 }

@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["wireflux"],
+  "cSpell.words": ["valibot", "wireflux"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"

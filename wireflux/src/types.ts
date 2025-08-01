@@ -1,20 +1,27 @@
-// Core types for Wireflux
+import { z } from 'zod';
 
-export type Result<V, E = unknown> =
-  | {
-      data: V;
-      error: null;
-    }
-  | {
-      data: null;
-      error: E;
-    };
+export const wirefluxConfigSchema = z.array(
+  z.object({
+    input: z.string().describe('The input file to read the API from'),
+    output: z.string().describe('The output file to write the API to'),
+    fetchClient: z.string().describe('The fetch client to use for the API'),
+    extendedClients: z
+      .array(z.enum(['swr', 'react-query']))
+      .optional()
+      .describe(
+        'The extended clients which depends on the fetch client, e.g. swr, react-query, etc.'
+      ),
+    types: z
+      .enum(['typescript', 'zod'])
+      .optional()
+      .default('typescript')
+      .describe('The type of the API, e.g. typescript, zod, etc.'),
+  })
+);
 
-export type UserFetchClient = <T>(
-  url: string,
-  init?: RequestInit
-) => Promise<Result<T, unknown>>;
+export type WirefluxConfig = z.infer<typeof wirefluxConfigSchema>;
 
-export interface UserApiError {
-  new (error: unknown): Error;
-}
+export type ConfigExport =
+  | WirefluxConfig
+  | { config: WirefluxConfig }
+  | { default: WirefluxConfig };
