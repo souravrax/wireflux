@@ -1,6 +1,12 @@
 import type { OpenAPIV3_1 as OpenAPI } from "openapi-types";
 import { DEFAULT_ACCEPT_METHODS } from "./config.js";
+import { writeFile } from "./file-utils.js";
 import type { GenerationContext } from "./generation-types.js";
+import { generateOperations } from "./generators/operations-generator.js";
+import { generateReactQueryHooks } from "./generators/react-query-generator.js";
+import { generateSwrHooks } from "./generators/swr-generator.js";
+import { generateTypescriptTypes } from "./generators/typescript-generator.js";
+import { generateZodTypes } from "./generators/zod-generator.js";
 import { loadOpenAPISpec } from "./loadOpenAPISpec.js";
 import type { WirefluxConfig } from "./types.js";
 import { getFunctionName, tryCatch } from "./utils.js";
@@ -61,6 +67,7 @@ export async function generateFromConfig(
 			if (!pathItem) {
 				continue;
 			}
+			console.log(pathUrl);
 			for (const method of DEFAULT_ACCEPT_METHODS) {
 				const operation = pathItem[
 					method as keyof typeof pathItem
@@ -71,8 +78,65 @@ export async function generateFromConfig(
 			}
 		}
 
-		processTypeGeneration(operations, config);
-		processFetchClientGeneration(operations, config);
-		processExtendedClientsGeneration(operations, config);
+		await processTypeGeneration(operations, config);
+		await processFetchClientGeneration(operations, config);
+		await processExtendedClientsGeneration(operations, config);
+	}
+}
+
+async function processTypeGeneration(
+	operations: GenerationContext[],
+	config: WirefluxConfig[0],
+): Promise<void> {
+	// Generate types.ts based on config.types (typescript, zod, etc.)
+	let typeContent: string;
+
+	switch (config.types) {
+		case "zod":
+			typeContent = await generateZodTypes(operations);
+			break;
+		case "typescript":
+			typeContent = await generateTypescriptTypes(operations);
+			break;
+		default:
+			typeContent = await generateTypescriptTypes(operations);
+			break;
+	}
+
+	await writeFile(`${config.output}/types.ts`, typeContent);
+}
+
+async function processFetchClientGeneration(
+	operations: GenerationContext[],
+	config: WirefluxConfig[0],
+): Promise<void> {
+	// Generate operations.ts that leverages types.ts
+	const operationsContent = await generateOperations(operations, config);
+
+	await writeFile(`${config.output}/operations.ts`, operationsContent);
+}
+
+async function processExtendedClientsGeneration(
+	operations: GenerationContext[],
+	config: WirefluxConfig[0],
+): Promise<void> {
+	// Generate extended client files (swr.ts, react-query.ts) if specified
+	if (!config.extendedClients?.length) {
+		return;
+	}
+
+	for (const clientType of config.extendedClients) {
+		switch (clientType) {
+			case "swr": {
+				const swrContent = await generateSwrHooks(operations);
+				await writeFile(`${config.output}/swr.ts`, swrContent);
+				break;
+			}
+			case "react-query": {
+				const reactQueryContent = await generateReactQueryHooks(operations);
+				await writeFile(`${config.output}/react-query.ts`, reactQueryContent);
+				break;
+			}
+		}
 	}
 }

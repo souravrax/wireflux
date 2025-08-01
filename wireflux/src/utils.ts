@@ -1,5 +1,7 @@
 // Utility functions for string manipulation
 
+import path from "node:path";
+
 export function toPascalCase(name: string): string {
 	return name.charAt(0).toUpperCase() + name.slice(1);
 }
@@ -35,3 +37,11 @@ export const tryCatch = <T>(
 		return { error: error as Error, value: null };
 	}
 };
+
+export function getRelativePath(from: string, to: string): string {
+	const relative = path.relative(from, to).replace(/\\/g, "/");
+	if (!relative.startsWith(".")) {
+		return `./${relative}`;
+	}
+	return relative;
+}
