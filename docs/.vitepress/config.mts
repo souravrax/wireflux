@@ -55,8 +55,8 @@ export default defineConfig({
     ],
 
     footer: {
-      message: 'Released under the ISC License.',
-      copyright: 'Copyright © 2024 Wireflux Contributors',
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2025 Wireflux Contributors',
     },
 
     editLink: {
