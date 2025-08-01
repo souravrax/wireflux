@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:api": "wireflux generate"
+    "generate:api": "wireflux generate",
+    "generate:api:js": "wireflux generate --config wireflux.config.js"
   },
   "dependencies": {
     "react": "^19.1.0",

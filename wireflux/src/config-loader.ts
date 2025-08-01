@@ -2,7 +2,7 @@ import { existsSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { buildSync } from 'esbuild';
+import { build } from 'esbuild';
 import { z } from 'zod';
 
 export interface WirefluxConfig {
@@ -87,7 +87,7 @@ function resolveConfigPath(provided?: string): string {
 }
 
 async function loadTSConfig(tsFile: string): Promise<ConfigExport> {
-  const result = buildSync({
+  const result = await build({
     entryPoints: [tsFile],
     format: 'esm',
     target: 'node18',
