@@ -102,3 +102,5 @@ public
 docs/.vitepress/cache
 docs/.vitepress/dist
 docs/.vitepress/temp
+
+wireflux/testing/*
