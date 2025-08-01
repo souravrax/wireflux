@@ -62,7 +62,12 @@ function generateOperationFunction(
 
 	const finalParams = `params: { ${paramsForSignature.join("; ")} }`;
 
-	const responseType = `types.${capitalize(fnName)}SuccessResponse`;
+	const responseType = operation.responses
+		? Object.keys(operation.responses)
+				.filter((code) => parseInt(code) < 300)
+				.map((code) => `types.${capitalize(fnName)}${code}Response`)
+				.join(" | ")
+		: "unknown";
 
 	// Generate URL construction
 	let urlConstruction = `"${path}"`;

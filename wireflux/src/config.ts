@@ -18,3 +18,9 @@ export const DEFAULT_ACCEPT_METHODS = [
   'options',
   'head',
 ];
+
+export const DEFAULT_CONTENT_TYPES = [
+  'application/json',
+  'application/x-www-form-urlencoded',
+  'multipart/form-data',
+];

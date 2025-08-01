@@ -1,4 +1,5 @@
 import type { OpenAPIV3_1 as OpenAPI } from "openapi-types";
+import { DEFAULT_CONTENT_TYPES } from "../config.js";
 import type { GenerationContext } from "../generation-types.js";
 
 export async function generateTypescriptTypes(
@@ -96,7 +97,7 @@ function generateRequestBodyType(
 ): string | null {
 	if (!requestBody.content) return null;
 
-	const jsonContent = requestBody.content["application/json"];
+	const jsonContent = getJsonContent(requestBody.content);
 	if (!jsonContent?.schema) return null;
 
 	const type = getTypeScriptType(jsonContent.schema);
@@ -110,22 +111,26 @@ function generateResponseTypes(
 	const responseTypes: string[] = [];
 
 	for (const [statusCode, response] of Object.entries(responses)) {
+		const code: number = parseInt(statusCode);
+		if (code > 300) {
+			continue;
+		}
 		if (
 			typeof response === "object" &&
 			"content" in response &&
 			response.content
 		) {
-			const jsonContent = response.content["application/json"];
+			const jsonContent = getJsonContent(response.content);
 			if (jsonContent?.schema) {
 				const type = getTypeScriptType(jsonContent.schema);
-				const statusName =
-					statusCode === "200" || statusCode === "201"
-						? "Success"
-						: `Response${statusCode}`;
 				responseTypes.push(
-					`export type ${capitalize(fnName)}${statusName}Response = ${type};`,
+					`export type ${capitalize(fnName)}${code}Response = ${type};`,
 				);
 			}
+		} else {
+			responseTypes.push(
+				`export type ${capitalize(fnName)}${code}Response = unknown;`,
+			);
 		}
 	}
 
@@ -136,6 +141,18 @@ function getTypeScriptType(schema: unknown): string {
 	if (!schema || typeof schema !== "object") return "unknown";
 
 	const schemaObj = schema as Record<string, unknown>;
+
+	if ("allOf" in schemaObj) {
+		const allOf = schemaObj.allOf as unknown[];
+		const types = allOf.map((item) => getTypeScriptType(item));
+		return `${types.join(" & ")}`;
+	}
+
+	if ("oneOf" in schemaObj) {
+		const oneOf = schemaObj.oneOf as unknown[];
+		const types = oneOf.map((item) => getTypeScriptType(item));
+		return `${types.join(" | ")}`;
+	}
 
 	switch (schemaObj.type) {
 		case "string":
@@ -173,4 +190,12 @@ function getTypeScriptType(schema: unknown): string {
 
 function capitalize(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function getJsonContent(
+	content: Record<string, OpenAPI.MediaTypeObject>,
+): OpenAPI.MediaTypeObject | undefined {
+	return Object.entries(content).find(([contentType]) =>
+		DEFAULT_CONTENT_TYPES.includes(contentType),
+	)?.[1] as OpenAPI.MediaTypeObject | undefined;
 }

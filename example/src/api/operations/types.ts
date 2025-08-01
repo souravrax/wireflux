@@ -8,7 +8,7 @@ export interface ListUsersQueryParams {
   sortOrder?: string;
 }
 
-export type ListUsersSuccessResponse = {
+export type ListUsers200Response = {
   id: string;
   username: string;
   email: string;
@@ -18,135 +18,15 @@ export type ListUsersSuccessResponse = {
   name?: string;
   emailVerified?: boolean;
 }[];
-export type ListUsersResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
-export type GetSocialProvidersSuccessResponse = string[];
+export type GetSocialProviders200Response = string[];
 
-export type GetUserSocialLinksSuccessResponse = {
+export type GetUserSocialLinks200Response = {
   id: string;
   provider: string;
   socialId: string;
   link: string;
 }[];
-export type GetUserSocialLinksResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserSocialLinksResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserSocialLinksResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserSocialLinksResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserSocialLinksResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserSocialLinksResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export type UpdateUserProfileRequestBody = {
   name?: string;
@@ -162,7 +42,7 @@ export type UpdateUserProfileRequestBody = {
 }[];
 };
 
-export type UpdateUserProfileSuccessResponse = {
+export type UpdateUserProfile200Response = {
   id: string;
   name: string;
   username: unknown;
@@ -172,151 +52,19 @@ export type UpdateUserProfileSuccessResponse = {
   bio: unknown;
   shouldLoginAgain?: boolean;
 };
-export type UpdateUserProfileResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UpdateUserProfileResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UpdateUserProfileResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UpdateUserProfileResponse409Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UpdateUserProfileResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UpdateUserProfileResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UpdateUserProfileResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
-export type GetActiveUsersSuccessResponse = {
+export type GetActiveUsers200Response = {
   id: string;
   username: string;
   name: string;
   image: unknown;
 }[];
-export type GetActiveUsersResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetActiveUsersResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetActiveUsersResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetActiveUsersResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export interface GetUserByUsernamePathParams {
   username: string;
 }
 
-export type GetUserByUsernameSuccessResponse = {
+export type GetUserByUsername200Response = {
   id: string;
   name: string;
   username: unknown;
@@ -332,133 +80,13 @@ export type GetUserByUsernameSuccessResponse = {
   link: string;
 }[];
 };
-export type GetUserByUsernameResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserByUsernameResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserByUsernameResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserByUsernameResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export interface CheckUsernameAvailabilityPathParams {
   username: string;
 }
 
-export type CheckUsernameAvailabilitySuccessResponse = {
+export type CheckUsernameAvailability200Response = {
   available: boolean;
-};
-export type CheckUsernameAvailabilityResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CheckUsernameAvailabilityResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CheckUsernameAvailabilityResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CheckUsernameAvailabilityResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CheckUsernameAvailabilityResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CheckUsernameAvailabilityResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface ListUsersWithMetadataQueryParams {
@@ -471,7 +99,7 @@ export interface ListUsersWithMetadataQueryParams {
   sortOrder?: string;
 }
 
-export type ListUsersWithMetadataSuccessResponse = {
+export type ListUsersWithMetadata200Response = {
   users: {
   id: string;
   name: string;
@@ -500,84 +128,12 @@ export type ListUsersWithMetadataSuccessResponse = {
   limit: number;
   totalPages: number;
 };
-export type ListUsersWithMetadataResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersWithMetadataResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersWithMetadataResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersWithMetadataResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersWithMetadataResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListUsersWithMetadataResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export interface GetUserWithMetadataPathParams {
   userId: string;
 }
 
-export type GetUserWithMetadataSuccessResponse = {
+export type GetUserWithMetadata200Response = {
   id: string;
   name: string;
   email: string;
@@ -599,66 +155,6 @@ export type GetUserWithMetadataSuccessResponse = {
   lastUsernameUpdate?: string;
   role?: string;
 };
-};
-export type GetUserWithMetadataResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserWithMetadataResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserWithMetadataResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserWithMetadataResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetUserWithMetadataResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface BanUserPathParams {
@@ -671,7 +167,7 @@ export type BanUserRequestBody = {
   permanent?: boolean;
 };
 
-export type BanUserSuccessResponse = {
+export type BanUser200Response = {
   message: string;
   user: {
   id: string;
@@ -696,73 +192,13 @@ export type BanUserSuccessResponse = {
   role?: string;
 };
 };
-};
-export type BanUserResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type BanUserResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type BanUserResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type BanUserResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type BanUserResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface UnbanUserPathParams {
   userId: string;
 }
 
-export type UnbanUserSuccessResponse = {
+export type UnbanUser200Response = {
   message: string;
   user: {
   id: string;
@@ -787,66 +223,6 @@ export type UnbanUserSuccessResponse = {
   role?: string;
 };
 };
-};
-export type UnbanUserResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UnbanUserResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UnbanUserResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UnbanUserResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type UnbanUserResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface SetUserRolePathParams {
@@ -857,7 +233,7 @@ export type SetUserRoleRequestBody = {
   role: string;
 };
 
-export type SetUserRoleSuccessResponse = {
+export type SetUserRole200Response = {
   message: string;
   user: {
   id: string;
@@ -882,66 +258,6 @@ export type SetUserRoleSuccessResponse = {
   role?: string;
 };
 };
-};
-export type SetUserRoleResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SetUserRoleResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SetUserRoleResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SetUserRoleResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SetUserRoleResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface ListProblemsQueryParams {
@@ -954,7 +270,7 @@ export interface ListProblemsQueryParams {
   order?: string;
 }
 
-export type ListProblemsSuccessResponse = {
+export type ListProblems200Response = {
   total: number;
   page: number;
   limit: number;
@@ -966,54 +282,6 @@ export type ListProblemsSuccessResponse = {
   id: number;
   name: string;
 }[];
-}[];
-};
-export type ListProblemsResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
 }[];
 };
 
@@ -1049,101 +317,17 @@ export type CreateProblemRequestBody = {
 };
 };
 
-export type CreateProblemSuccessResponse = {
+export type CreateProblem201Response = {
   id: number;
   title: string;
   difficulty: string;
-};
-export type CreateProblemResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateProblemResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateProblemResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateProblemResponse409Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateProblemResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateProblemResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateProblemResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface GetProblemByNamePathParams {
   name: string;
 }
 
-export type GetProblemByNameSuccessResponse = {
+export type GetProblemByName200Response = {
   id: number;
   title: string;
   description: string;
@@ -1180,7 +364,7 @@ export type GetProblemByNameSuccessResponse = {
 }[];
 };
 
-export type ListTopicsSuccessResponse = {
+export type ListTopics200Response = {
   id: number;
   name: string;
 }[];
@@ -1189,96 +373,13 @@ export type CreateTopicRequestBody = {
   topics: string[];
 };
 
-export type CreateTopicResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateTopicResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateTopicResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateTopicResponse409Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateTopicResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateTopicResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateTopicResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
+export type CreateTopic201Response = unknown;
 
 export interface GetTestcasesQueryParams {
   problemId: string;
 }
 
-export type GetTestcasesSuccessResponse = {
+export type GetTestcases200Response = {
   problemId: number;
   testcases: {
   input: string;
@@ -1286,151 +387,13 @@ export type GetTestcasesSuccessResponse = {
   hidden: boolean;
 }[];
 };
-export type GetTestcasesResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetTestcasesResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetTestcasesResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetTestcasesResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetTestcasesResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
+
+export type CreateOrReplaceTestcasesRequestBody = {
+  testcases: unknown;
+  problemId: string;
 };
 
-export type CreateOrReplaceTestcasesResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateOrReplaceTestcasesResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateOrReplaceTestcasesResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateOrReplaceTestcasesResponse409Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateOrReplaceTestcasesResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateOrReplaceTestcasesResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateOrReplaceTestcasesResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
+export type CreateOrReplaceTestcases201Response = unknown;
 
 export interface ListProblemsWithFilteringQueryParams {
   page?: string;
@@ -1443,7 +406,7 @@ export interface ListProblemsWithFilteringQueryParams {
   order?: string;
 }
 
-export type ListProblemsWithFilteringSuccessResponse = {
+export type ListProblemsWithFiltering200Response = {
   total: number;
   page: number;
   limit: number;
@@ -1458,80 +421,8 @@ export type ListProblemsWithFilteringSuccessResponse = {
   status: string;
 }[];
 };
-export type ListProblemsWithFilteringResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsWithFilteringResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsWithFilteringResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsWithFilteringResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsWithFilteringResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListProblemsWithFilteringResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
-export type GetLanguagesSuccessResponse = string[];
+export type GetLanguages200Response = string[];
 
 export interface SubmitSolutionQueryParams {
   problemId: string;
@@ -1541,68 +432,8 @@ export interface SubmitSolutionQueryParams {
 
 export type SubmitSolutionRequestBody = unknown;
 
-export type SubmitSolutionSuccessResponse = {
+export type SubmitSolution200Response = {
   submissionId: string;
-};
-export type SubmitSolutionResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SubmitSolutionResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SubmitSolutionResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SubmitSolutionResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type SubmitSolutionResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface GetSubmissionStatusQueryParams {
@@ -1612,79 +443,53 @@ export interface GetSubmissionStatusQueryParams {
   problemName?: string;
 }
 
-export type GetSubmissionStatusSuccessResponse = unknown;
-export type GetSubmissionStatusResponse206Response = unknown;
-export type GetSubmissionStatusResponse400Response = {
-  status: number;
+export type GetSubmissionStatus200Response = {
   code: string;
+  language: string;
+  total_memory: unknown;
+  total_time: unknown;
+  total_testcases: number;
+  completed_testcases: number;
+  status: {
+  id: string;
   message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
-export type GetSubmissionStatusResponse401Response = {
-  status: number;
-  code: string;
+  results: {
+  stdin: unknown;
+  stderr: unknown;
+  stdout: unknown;
+  expectedOutput?: string;
+  status: {
+  id: string;
   message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
-export type GetSubmissionStatusResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
 }[];
+} & {
+  progress: number;
 };
-export type GetSubmissionStatusResponse404Response = {
-  status: number;
+export type GetSubmissionStatus206Response = {
   code: string;
+  language: string;
+  total_memory: unknown;
+  total_time: unknown;
+  total_testcases: number;
+  completed_testcases: number;
+  status: {
+  id: string;
   message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
-export type GetSubmissionStatusResponse429Response = {
-  status: number;
-  code: string;
+  results: {
+  stdin: unknown;
+  stderr: unknown;
+  stdout: unknown;
+  expectedOutput?: string;
+  status: {
+  id: string;
   message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
-export type GetSubmissionStatusResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
 }[];
+} & {
+  progress: number;
 };
 
 export interface ListChannelsQueryParams {
@@ -1692,7 +497,7 @@ export interface ListChannelsQueryParams {
   includePrivate?: boolean;
 }
 
-export type ListChannelsSuccessResponse = {
+export type ListChannels200Response = {
   name: string;
   roleRequired: string;
   order: number;
@@ -1704,7 +509,7 @@ export type CreateChannelRequestBody = {
   order?: number;
 };
 
-export type CreateChannelSuccessResponse = {
+export type CreateChannel201Response = {
   id: string;
   name: string;
   description: unknown;
@@ -1712,97 +517,13 @@ export type CreateChannelSuccessResponse = {
   order: number;
   createdAt: unknown;
   updatedAt: unknown;
-};
-export type CreateChannelResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateChannelResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateChannelResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateChannelResponse409Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateChannelResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateChannelResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateChannelResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface GetChannelByNamePathParams {
   channel_name: string;
 }
 
-export type GetChannelByNameSuccessResponse = {
+export type GetChannelByName200Response = {
   id: string;
   name: string;
   description: unknown;
@@ -1810,66 +531,6 @@ export type GetChannelByNameSuccessResponse = {
   order: number;
   createdAt: unknown;
   updatedAt: unknown;
-};
-export type GetChannelByNameResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelByNameResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelByNameResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelByNameResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelByNameResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface GetChannelMessagesPathParams {
@@ -1881,7 +542,7 @@ export interface GetChannelMessagesQueryParams {
   cursor: string;
 }
 
-export type GetChannelMessagesSuccessResponse = {
+export type GetChannelMessages200Response = {
   total: number;
   limit: number;
   cursor: unknown;
@@ -1894,73 +555,13 @@ export type GetChannelMessagesSuccessResponse = {
 }[];
   nextCursor: unknown;
 };
-export type GetChannelMessagesResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelMessagesResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelMessagesResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelMessagesResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetChannelMessagesResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export interface ListRoomsQueryParams {
   cursor?: string;
   limit?: string;
 }
 
-export type ListRoomsSuccessResponse = {
+export type ListRooms200Response = {
   id: string;
   name: string;
   createdAt: string;
@@ -1974,54 +575,6 @@ export type ListRoomsSuccessResponse = {
   image: unknown;
 }[];
 }[];
-export type ListRoomsResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListRoomsResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListRoomsResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type ListRoomsResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export type CreateRoomRequestBody = {
   name: string;
@@ -2033,99 +586,15 @@ export type CreateRoomRequestBody = {
 };
 };
 
-export type CreateRoomSuccessResponse = {
+export type CreateRoom201Response = {
   roomId: unknown;
-};
-export type CreateRoomResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateRoomResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateRoomResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateRoomResponse409Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateRoomResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateRoomResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type CreateRoomResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface GetRoomInfoPathParams {
   roomId: string;
 }
 
-export type GetRoomInfoSuccessResponse = {
+export type GetRoomInfo200Response = {
   id: string;
   name: string;
   isPrivate: boolean;
@@ -2139,72 +608,12 @@ export type GetRoomInfoSuccessResponse = {
   image: string;
 }[];
 };
-export type GetRoomInfoResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomInfoResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomInfoResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomInfoResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomInfoResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export interface GetRoomProblemsPathParams {
   roomId: string;
 }
 
-export type GetRoomProblemsSuccessResponse = {
+export type GetRoomProblems200Response = {
   id: number;
   title: string;
   description: string;
@@ -2240,164 +649,20 @@ export type GetRoomProblemsSuccessResponse = {
   name: string;
 }[];
 }[];
-export type GetRoomProblemsResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomProblemsResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomProblemsResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomProblemsResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomProblemsResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
 
 export interface JoinRoomPathParams {
   roomId: string;
 }
 
-export type JoinRoomSuccessResponse = {
+export type JoinRoom201Response = {
   message: string;
-};
-export type JoinRoomResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type JoinRoomResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type JoinRoomResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type JoinRoomResponse409Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type JoinRoomResponse413Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type JoinRoomResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type JoinRoomResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export interface LeaveRoomPathParams {
   roomId: string;
 }
 
-
+export type LeaveRoom200Response = unknown;
 
 export interface GetRoomMessagesPathParams {
   roomId: string;
@@ -2408,229 +673,34 @@ export interface GetRoomMessagesQueryParams {
   limit?: string;
 }
 
-export type GetRoomMessagesSuccessResponse = {
-  messages: unknown[];
+export type GetRoomMessages200Response = {
+  messages: unknown & {
+  id: string;
+  createdAt: string;
+} & {
+  userInfo: {
+  username: string;
+  name: string;
+  image: unknown;
+};
+}[];
   total: number;
   nextCursor: unknown;
   limit: number;
-};
-export type GetRoomMessagesResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomMessagesResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomMessagesResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomMessagesResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GetRoomMessagesResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export type AskAIRequestBody = {
   question: string;
 };
 
-export type AskAISuccessResponse = {
+export type AskAI200Response = {
   answer: string;
-};
-export type AskAIResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type AskAIResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type AskAIResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type AskAIResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type AskAIResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type AskAIResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
 
 export type GenerateDescriptionRequestBody = {
   text: string;
 };
 
-export type GenerateDescriptionSuccessResponse = {
+export type GenerateDescription200Response = {
   description: string;
-};
-export type GenerateDescriptionResponse400Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GenerateDescriptionResponse401Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GenerateDescriptionResponse403Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GenerateDescriptionResponse404Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GenerateDescriptionResponse429Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
-};
-export type GenerateDescriptionResponse500Response = {
-  status: number;
-  code: string;
-  message: string;
-  timestamp: string;
-  path?: string;
-  errors?: {
-  field: string;
-  message: string;
-  code?: string;
-}[];
 };
