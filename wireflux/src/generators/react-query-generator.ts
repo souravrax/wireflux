@@ -28,6 +28,7 @@ import * as types from "./types.js";`;
 
 function generateQueryHook(operation: GenerationContext): string {
 	const { fnName, parameters } = operation;
+	const camelFnName = fnName.charAt(0).toLowerCase() + fnName.slice(1);
 
 	const pathParams = parameters?.filter((p) => p.in === "path") || [];
 	const queryParams = parameters?.filter((p) => p.in === "query") || [];
@@ -35,42 +36,39 @@ function generateQueryHook(operation: GenerationContext): string {
 	const hasPathParams = pathParams.length > 0;
 	const hasQueryParams = queryParams.length > 0;
 
-	// Generate hook parameters
-	const params = [];
+	// Hook parameters
+	const hookParamsList: string[] = [];
 	if (hasPathParams)
-		params.push(`pathParams: types.${capitalize(fnName)}PathParams`);
+		hookParamsList.push(`path: types.${capitalize(fnName)}PathParams`);
 	if (hasQueryParams)
-		params.push(`queryParams?: types.${capitalize(fnName)}QueryParams`);
-	params.push(
-		`options?: Omit<UseQueryOptions<types.${capitalize(fnName)}SuccessResponse>, "queryKey" | "queryFn">`,
-	);
+		hookParamsList.push(`query?: types.${capitalize(fnName)}QueryParams`);
 
-	const paramSignature = `{ ${params.join(", ")} }`;
+	const paramsType =
+		hookParamsList.length > 0 ? `{ ${hookParamsList.join("; ")} }` : "void";
+	const paramsRequired = hasPathParams;
+	const paramsArg = `params${paramsRequired ? "" : "?"}: ${paramsType}`;
+
+	const optionsArg = `options?: Omit<UseQueryOptions<types.${capitalize(
+		fnName,
+	)}SuccessResponse>, "queryKey" | "queryFn">`;
+
+	const hookSignature = [paramsArg, optionsArg].filter(Boolean).join(", ");
+
 	const responseType = `types.${capitalize(fnName)}SuccessResponse`;
 
-	// Generate React Query key
-	const keyParts = [];
-	keyParts.push(`"${fnName}"`);
-	if (hasPathParams) keyParts.push("pathParams");
-	if (hasQueryParams) keyParts.push("queryParams");
+	// React Query key
+	const keyParts = [`'${camelFnName}'`];
+	if (hasPathParams) keyParts.push("params.path");
+	if (hasQueryParams) keyParts.push("params.query");
+	const queryKey = `[${keyParts.join(", ")}]`;
 
-	const queryKey =
-		keyParts.length > 1 ? `[${keyParts.join(", ")}]` : keyParts[0];
+	// Query function call
+	const queryFn = `() => operations.${camelFnName}(params)`;
 
-	// Generate query function call
-	const queryArgs = [];
-	if (hasPathParams) queryArgs.push("pathParams");
-	if (hasQueryParams) queryArgs.push("queryParams");
-
-	const queryCall =
-		queryArgs.length > 0
-			? `operations.${fnName}({ ${queryArgs.join(", ")} })`
-			: `operations.${fnName}()`;
-
-	const hookBody = `export function use${capitalize(fnName)}Query(${paramSignature}) {
+	const hookBody = `export function use${capitalize(fnName)}Query(${hookSignature}) {
   return useQuery<${responseType}>({
     queryKey: ${queryKey},
-    queryFn: () => ${queryCall},
+    queryFn: ${queryFn},
     ...options
   });
 }`;
@@ -80,6 +78,7 @@ function generateQueryHook(operation: GenerationContext): string {
 
 function generateMutationHook(operation: GenerationContext): string {
 	const { fnName, parameters, requestBody } = operation;
+	const camelFnName = fnName.charAt(0).toLowerCase() + fnName.slice(1);
 
 	const pathParams = parameters?.filter((p) => p.in === "path") || [];
 	const queryParams = parameters?.filter((p) => p.in === "query") || [];
@@ -92,11 +91,11 @@ function generateMutationHook(operation: GenerationContext): string {
 	// Generate mutation variables type
 	const variableParts = [];
 	if (hasPathParams)
-		variableParts.push(`pathParams: types.${capitalize(fnName)}PathParams`);
+		variableParts.push(`path: types.${capitalize(fnName)}PathParams`);
 	if (hasQueryParams)
-		variableParts.push(`queryParams?: types.${capitalize(fnName)}QueryParams`);
+		variableParts.push(`query?: types.${capitalize(fnName)}QueryParams`);
 	if (hasRequestBody)
-		variableParts.push(`requestBody: types.${capitalize(fnName)}RequestBody`);
+		variableParts.push(`body: types.${capitalize(fnName)}RequestBody`);
 
 	const variablesType =
 		variableParts.length > 0 ? `{ ${variableParts.join("; ")} }` : "void";
@@ -106,8 +105,7 @@ function generateMutationHook(operation: GenerationContext): string {
 ) {
   return useMutation<${responseType}, Error, ${variablesType}>({
     mutationFn: (variables) => {
-      const args = ${variableParts.length > 0 ? "variables" : "{}"};
-      return operations.${fnName}(args);
+      return operations.${camelFnName}(variables);
     },
     ...options
   });

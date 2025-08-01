@@ -1,11 +1,12 @@
 import fetchClient from "../fetchClient";
 import type * as types from "./types.js";
 
-export async function ListUsers({ queryParams?: types.ListUsersQueryParams }): Promise<types.ListUsersSuccessResponse> {
+export async function listUsers(params: { query?: types.ListUsersQueryParams; init?: RequestInit }): Promise<types.ListUsersSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/users";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -15,6 +16,7 @@ export async function ListUsers({ queryParams?: types.ListUsersQueryParams }): P
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -25,11 +27,13 @@ export async function ListUsers({ queryParams?: types.ListUsersQueryParams }): P
   return response.json() as types.ListUsersSuccessResponse;
 }
 
-export async function GetSocialProviders(): Promise<types.GetSocialProvidersSuccessResponse> {
+export async function getSocialProviders(params: { init?: RequestInit }): Promise<types.GetSocialProvidersSuccessResponse> {
+  const { init } = params;
   const url = "/v1/users/social/providers";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -40,11 +44,13 @@ export async function GetSocialProviders(): Promise<types.GetSocialProvidersSucc
   return response.json() as types.GetSocialProvidersSuccessResponse;
 }
 
-export async function GetUserSocialLinks(): Promise<types.GetUserSocialLinksSuccessResponse> {
+export async function getUserSocialLinks(params: { init?: RequestInit }): Promise<types.GetUserSocialLinksSuccessResponse> {
+  const { init } = params;
   const url = "/v1/users/social";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -55,14 +61,16 @@ export async function GetUserSocialLinks(): Promise<types.GetUserSocialLinksSucc
   return response.json() as types.GetUserSocialLinksSuccessResponse;
 }
 
-export async function UpdateUserProfile({ requestBody: types.UpdateUserProfileRequestBody }): Promise<types.UpdateUserProfileSuccessResponse> {
+export async function updateUserProfile(params: { body: types.UpdateUserProfileRequestBody; init?: RequestInit }): Promise<types.UpdateUserProfileSuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/users/update";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -72,11 +80,13 @@ export async function UpdateUserProfile({ requestBody: types.UpdateUserProfileRe
   return response.json() as types.UpdateUserProfileSuccessResponse;
 }
 
-export async function GetActiveUsers(): Promise<types.GetActiveUsersSuccessResponse> {
+export async function getActiveUsers(params: { init?: RequestInit }): Promise<types.GetActiveUsersSuccessResponse> {
+  const { init } = params;
   const url = "/v1/users/active";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -87,11 +97,13 @@ export async function GetActiveUsers(): Promise<types.GetActiveUsersSuccessRespo
   return response.json() as types.GetActiveUsersSuccessResponse;
 }
 
-export async function GetUserByUsername({ pathParams: types.GetUserByUsernamePathParams }): Promise<types.GetUserByUsernameSuccessResponse> {
-  const url = `/v1/users/${pathParams.username}`;
-  const fullUrl = url;
+export async function getUserByUsername(params: { path: types.GetUserByUsernamePathParams; init?: RequestInit }): Promise<types.GetUserByUsernameSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/users/${path.username}`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -102,11 +114,13 @@ export async function GetUserByUsername({ pathParams: types.GetUserByUsernamePat
   return response.json() as types.GetUserByUsernameSuccessResponse;
 }
 
-export async function CheckUsernameAvailability({ pathParams: types.CheckUsernameAvailabilityPathParams }): Promise<types.CheckUsernameAvailabilitySuccessResponse> {
-  const url = `/v1/users/${pathParams.username}/available`;
-  const fullUrl = url;
+export async function checkUsernameAvailability(params: { path: types.CheckUsernameAvailabilityPathParams; init?: RequestInit }): Promise<types.CheckUsernameAvailabilitySuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/users/${path.username}/available`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -117,11 +131,12 @@ export async function CheckUsernameAvailability({ pathParams: types.CheckUsernam
   return response.json() as types.CheckUsernameAvailabilitySuccessResponse;
 }
 
-export async function ListUsersWithMetadata({ queryParams?: types.ListUsersWithMetadataQueryParams }): Promise<types.ListUsersWithMetadataSuccessResponse> {
+export async function listUsersWithMetadata(params: { query?: types.ListUsersWithMetadataQueryParams; init?: RequestInit }): Promise<types.ListUsersWithMetadataSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/users/admin/users";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -131,6 +146,7 @@ export async function ListUsersWithMetadata({ queryParams?: types.ListUsersWithM
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -141,11 +157,13 @@ export async function ListUsersWithMetadata({ queryParams?: types.ListUsersWithM
   return response.json() as types.ListUsersWithMetadataSuccessResponse;
 }
 
-export async function GetUserWithMetadata({ pathParams: types.GetUserWithMetadataPathParams }): Promise<types.GetUserWithMetadataSuccessResponse> {
-  const url = `/v1/users/admin/users/${pathParams.userId}`;
-  const fullUrl = url;
+export async function getUserWithMetadata(params: { path: types.GetUserWithMetadataPathParams; init?: RequestInit }): Promise<types.GetUserWithMetadataSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/users/admin/users/${path.userId}`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -156,14 +174,16 @@ export async function GetUserWithMetadata({ pathParams: types.GetUserWithMetadat
   return response.json() as types.GetUserWithMetadataSuccessResponse;
 }
 
-export async function BanUser({ pathParams: types.BanUserPathParams, requestBody: types.BanUserRequestBody }): Promise<types.BanUserSuccessResponse> {
-  const url = `/v1/users/admin/users/${pathParams.userId}/ban`;
-  const fullUrl = url;
+export async function banUser(params: { path: types.BanUserPathParams; body: types.BanUserRequestBody; init?: RequestInit }): Promise<types.BanUserSuccessResponse> {
+  const { path, body, init } = params;
+  const url = `/v1/users/admin/users/${path.userId}/ban`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -173,11 +193,13 @@ export async function BanUser({ pathParams: types.BanUserPathParams, requestBody
   return response.json() as types.BanUserSuccessResponse;
 }
 
-export async function UnbanUser({ pathParams: types.UnbanUserPathParams }): Promise<types.UnbanUserSuccessResponse> {
-  const url = `/v1/users/admin/users/${pathParams.userId}/unban`;
-  const fullUrl = url;
+export async function unbanUser(params: { path: types.UnbanUserPathParams; init?: RequestInit }): Promise<types.UnbanUserSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/users/admin/users/${path.userId}/unban`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST"
   });
   
@@ -188,14 +210,16 @@ export async function UnbanUser({ pathParams: types.UnbanUserPathParams }): Prom
   return response.json() as types.UnbanUserSuccessResponse;
 }
 
-export async function SetUserRole({ pathParams: types.SetUserRolePathParams, requestBody: types.SetUserRoleRequestBody }): Promise<types.SetUserRoleSuccessResponse> {
-  const url = `/v1/users/admin/users/${pathParams.userId}/role`;
-  const fullUrl = url;
+export async function setUserRole(params: { path: types.SetUserRolePathParams; body: types.SetUserRoleRequestBody; init?: RequestInit }): Promise<types.SetUserRoleSuccessResponse> {
+  const { path, body, init } = params;
+  const url = `/v1/users/admin/users/${path.userId}/role`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -205,11 +229,12 @@ export async function SetUserRole({ pathParams: types.SetUserRolePathParams, req
   return response.json() as types.SetUserRoleSuccessResponse;
 }
 
-export async function ListProblems({ queryParams?: types.ListProblemsQueryParams }): Promise<types.ListProblemsSuccessResponse> {
+export async function listProblems(params: { query?: types.ListProblemsQueryParams; init?: RequestInit }): Promise<types.ListProblemsSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/problems";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -219,6 +244,7 @@ export async function ListProblems({ queryParams?: types.ListProblemsQueryParams
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -229,14 +255,16 @@ export async function ListProblems({ queryParams?: types.ListProblemsQueryParams
   return response.json() as types.ListProblemsSuccessResponse;
 }
 
-export async function CreateProblem({ requestBody: types.CreateProblemRequestBody }): Promise<types.CreateProblemSuccessResponse> {
+export async function createProblem(params: { body: types.CreateProblemRequestBody; init?: RequestInit }): Promise<types.CreateProblemSuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/problems/create";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -246,11 +274,13 @@ export async function CreateProblem({ requestBody: types.CreateProblemRequestBod
   return response.json() as types.CreateProblemSuccessResponse;
 }
 
-export async function GetProblemByName({ pathParams: types.GetProblemByNamePathParams }): Promise<types.GetProblemByNameSuccessResponse> {
-  const url = `/v1/problems/${pathParams.name}`;
-  const fullUrl = url;
+export async function getProblemByName(params: { path: types.GetProblemByNamePathParams; init?: RequestInit }): Promise<types.GetProblemByNameSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/problems/${path.name}`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -261,11 +291,13 @@ export async function GetProblemByName({ pathParams: types.GetProblemByNamePathP
   return response.json() as types.GetProblemByNameSuccessResponse;
 }
 
-export async function ListTopics(): Promise<types.ListTopicsSuccessResponse> {
+export async function listTopics(params: { init?: RequestInit }): Promise<types.ListTopicsSuccessResponse> {
+  const { init } = params;
   const url = "/v1/problems/topics";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -276,14 +308,16 @@ export async function ListTopics(): Promise<types.ListTopicsSuccessResponse> {
   return response.json() as types.ListTopicsSuccessResponse;
 }
 
-export async function CreateTopic({ requestBody: types.CreateTopicRequestBody }): Promise<types.CreateTopicSuccessResponse> {
+export async function createTopic(params: { body: types.CreateTopicRequestBody; init?: RequestInit }): Promise<types.CreateTopicSuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/problems/topics";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -293,11 +327,12 @@ export async function CreateTopic({ requestBody: types.CreateTopicRequestBody })
   return response.json() as types.CreateTopicSuccessResponse;
 }
 
-export async function GetTestcases({ queryParams?: types.GetTestcasesQueryParams }): Promise<types.GetTestcasesSuccessResponse> {
+export async function getTestcases(params: { query?: types.GetTestcasesQueryParams; init?: RequestInit }): Promise<types.GetTestcasesSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/problems/testcases";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -307,6 +342,7 @@ export async function GetTestcases({ queryParams?: types.GetTestcasesQueryParams
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -317,14 +353,16 @@ export async function GetTestcases({ queryParams?: types.GetTestcasesQueryParams
   return response.json() as types.GetTestcasesSuccessResponse;
 }
 
-export async function CreateOrReplaceTestcases({ requestBody: types.CreateOrReplaceTestcasesRequestBody }): Promise<types.CreateOrReplaceTestcasesSuccessResponse> {
+export async function createOrReplaceTestcases(params: { body: types.CreateOrReplaceTestcasesRequestBody; init?: RequestInit }): Promise<types.CreateOrReplaceTestcasesSuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/problems/testcases";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -334,11 +372,12 @@ export async function CreateOrReplaceTestcases({ requestBody: types.CreateOrRepl
   return response.json() as types.CreateOrReplaceTestcasesSuccessResponse;
 }
 
-export async function ListProblemsWithFiltering({ queryParams?: types.ListProblemsWithFilteringQueryParams }): Promise<types.ListProblemsWithFilteringSuccessResponse> {
+export async function listProblemsWithFiltering(params: { query?: types.ListProblemsWithFilteringQueryParams; init?: RequestInit }): Promise<types.ListProblemsWithFilteringSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/problems/problems";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -348,6 +387,7 @@ export async function ListProblemsWithFiltering({ queryParams?: types.ListProble
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -358,11 +398,13 @@ export async function ListProblemsWithFiltering({ queryParams?: types.ListProble
   return response.json() as types.ListProblemsWithFilteringSuccessResponse;
 }
 
-export async function GetLanguages(): Promise<types.GetLanguagesSuccessResponse> {
+export async function getLanguages(params: { init?: RequestInit }): Promise<types.GetLanguagesSuccessResponse> {
+  const { init } = params;
   const url = "/v1/judge/languages";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -373,11 +415,12 @@ export async function GetLanguages(): Promise<types.GetLanguagesSuccessResponse>
   return response.json() as types.GetLanguagesSuccessResponse;
 }
 
-export async function SubmitSolution({ queryParams?: types.SubmitSolutionQueryParams, requestBody: types.SubmitSolutionRequestBody }): Promise<types.SubmitSolutionSuccessResponse> {
+export async function submitSolution(params: { query?: types.SubmitSolutionQueryParams; body: types.SubmitSolutionRequestBody; init?: RequestInit }): Promise<types.SubmitSolutionSuccessResponse> {
+  const { query, body, init } = params;
   const url = "/v1/judge/submit";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -387,9 +430,10 @@ export async function SubmitSolution({ queryParams?: types.SubmitSolutionQueryPa
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -399,11 +443,12 @@ export async function SubmitSolution({ queryParams?: types.SubmitSolutionQueryPa
   return response.json() as types.SubmitSolutionSuccessResponse;
 }
 
-export async function GetSubmissionStatus({ queryParams?: types.GetSubmissionStatusQueryParams }): Promise<types.GetSubmissionStatusSuccessResponse> {
+export async function getSubmissionStatus(params: { query?: types.GetSubmissionStatusQueryParams; init?: RequestInit }): Promise<types.GetSubmissionStatusSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/judge/status";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -413,6 +458,7 @@ export async function GetSubmissionStatus({ queryParams?: types.GetSubmissionSta
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -423,11 +469,12 @@ export async function GetSubmissionStatus({ queryParams?: types.GetSubmissionSta
   return response.json() as types.GetSubmissionStatusSuccessResponse;
 }
 
-export async function ListChannels({ queryParams?: types.ListChannelsQueryParams }): Promise<types.ListChannelsSuccessResponse> {
+export async function listChannels(params: { query?: types.ListChannelsQueryParams; init?: RequestInit }): Promise<types.ListChannelsSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/channels";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -437,6 +484,7 @@ export async function ListChannels({ queryParams?: types.ListChannelsQueryParams
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -447,14 +495,16 @@ export async function ListChannels({ queryParams?: types.ListChannelsQueryParams
   return response.json() as types.ListChannelsSuccessResponse;
 }
 
-export async function CreateChannel({ requestBody: types.CreateChannelRequestBody }): Promise<types.CreateChannelSuccessResponse> {
+export async function createChannel(params: { body: types.CreateChannelRequestBody; init?: RequestInit }): Promise<types.CreateChannelSuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/channels/create";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -464,11 +514,13 @@ export async function CreateChannel({ requestBody: types.CreateChannelRequestBod
   return response.json() as types.CreateChannelSuccessResponse;
 }
 
-export async function GetChannelByName({ pathParams: types.GetChannelByNamePathParams }): Promise<types.GetChannelByNameSuccessResponse> {
-  const url = `/v1/channels/${pathParams.channel_name}`;
-  const fullUrl = url;
+export async function getChannelByName(params: { path: types.GetChannelByNamePathParams; init?: RequestInit }): Promise<types.GetChannelByNameSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/channels/${path.channel_name}`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -479,11 +531,12 @@ export async function GetChannelByName({ pathParams: types.GetChannelByNamePathP
   return response.json() as types.GetChannelByNameSuccessResponse;
 }
 
-export async function GetChannelMessages({ pathParams: types.GetChannelMessagesPathParams, queryParams?: types.GetChannelMessagesQueryParams }): Promise<types.GetChannelMessagesSuccessResponse> {
-  const url = `/v1/channels/${pathParams.channel_name}/messages`;
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+export async function getChannelMessages(params: { path: types.GetChannelMessagesPathParams; query?: types.GetChannelMessagesQueryParams; init?: RequestInit }): Promise<types.GetChannelMessagesSuccessResponse> {
+  const { path, query, init } = params;
+  const url = `/v1/channels/${path.channel_name}/messages`;
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -493,6 +546,7 @@ export async function GetChannelMessages({ pathParams: types.GetChannelMessagesP
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -503,11 +557,12 @@ export async function GetChannelMessages({ pathParams: types.GetChannelMessagesP
   return response.json() as types.GetChannelMessagesSuccessResponse;
 }
 
-export async function ListRooms({ queryParams?: types.ListRoomsQueryParams }): Promise<types.ListRoomsSuccessResponse> {
+export async function listRooms(params: { query?: types.ListRoomsQueryParams; init?: RequestInit }): Promise<types.ListRoomsSuccessResponse> {
+  const { query, init } = params;
   const url = "/v1/rooms";
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -517,6 +572,7 @@ export async function ListRooms({ queryParams?: types.ListRoomsQueryParams }): P
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -527,14 +583,16 @@ export async function ListRooms({ queryParams?: types.ListRoomsQueryParams }): P
   return response.json() as types.ListRoomsSuccessResponse;
 }
 
-export async function CreateRoom({ requestBody: types.CreateRoomRequestBody }): Promise<types.CreateRoomSuccessResponse> {
+export async function createRoom(params: { body: types.CreateRoomRequestBody; init?: RequestInit }): Promise<types.CreateRoomSuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/rooms/create";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -544,11 +602,13 @@ export async function CreateRoom({ requestBody: types.CreateRoomRequestBody }): 
   return response.json() as types.CreateRoomSuccessResponse;
 }
 
-export async function GetRoomInfo({ pathParams: types.GetRoomInfoPathParams }): Promise<types.GetRoomInfoSuccessResponse> {
-  const url = `/v1/rooms/${pathParams.roomId}/info`;
-  const fullUrl = url;
+export async function getRoomInfo(params: { path: types.GetRoomInfoPathParams; init?: RequestInit }): Promise<types.GetRoomInfoSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/rooms/${path.roomId}/info`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -559,11 +619,13 @@ export async function GetRoomInfo({ pathParams: types.GetRoomInfoPathParams }): 
   return response.json() as types.GetRoomInfoSuccessResponse;
 }
 
-export async function GetRoomProblems({ pathParams: types.GetRoomProblemsPathParams }): Promise<types.GetRoomProblemsSuccessResponse> {
-  const url = `/v1/rooms/${pathParams.roomId}/problems`;
-  const fullUrl = url;
+export async function getRoomProblems(params: { path: types.GetRoomProblemsPathParams; init?: RequestInit }): Promise<types.GetRoomProblemsSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/rooms/${path.roomId}/problems`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -574,11 +636,13 @@ export async function GetRoomProblems({ pathParams: types.GetRoomProblemsPathPar
   return response.json() as types.GetRoomProblemsSuccessResponse;
 }
 
-export async function JoinRoom({ pathParams: types.JoinRoomPathParams }): Promise<types.JoinRoomSuccessResponse> {
-  const url = `/v1/rooms/${pathParams.roomId}/join`;
-  const fullUrl = url;
+export async function joinRoom(params: { path: types.JoinRoomPathParams; init?: RequestInit }): Promise<types.JoinRoomSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/rooms/${path.roomId}/join`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST"
   });
   
@@ -589,11 +653,13 @@ export async function JoinRoom({ pathParams: types.JoinRoomPathParams }): Promis
   return response.json() as types.JoinRoomSuccessResponse;
 }
 
-export async function LeaveRoom({ pathParams: types.LeaveRoomPathParams }): Promise<types.LeaveRoomSuccessResponse> {
-  const url = `/v1/rooms/${pathParams.roomId}/leave`;
-  const fullUrl = url;
+export async function leaveRoom(params: { path: types.LeaveRoomPathParams; init?: RequestInit }): Promise<types.LeaveRoomSuccessResponse> {
+  const { path, init } = params;
+  const url = `/v1/rooms/${path.roomId}/leave`;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "DELETE"
   });
   
@@ -604,11 +670,12 @@ export async function LeaveRoom({ pathParams: types.LeaveRoomPathParams }): Prom
   return response.json() as types.LeaveRoomSuccessResponse;
 }
 
-export async function GetRoomMessages({ pathParams: types.GetRoomMessagesPathParams, queryParams?: types.GetRoomMessagesQueryParams }): Promise<types.GetRoomMessagesSuccessResponse> {
-  const url = `/v1/rooms/${pathParams.roomId}/messages`;
-  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
+export async function getRoomMessages(params: { path: types.GetRoomMessagesPathParams; query?: types.GetRoomMessagesQueryParams; init?: RequestInit }): Promise<types.GetRoomMessagesSuccessResponse> {
+  const { path, query, init } = params;
+  const url = `/v1/rooms/${path.roomId}/messages`;
+    const searchParams = new URLSearchParams();
+  if (query) {
+    Object.entries(query).forEach(([key, value]) => {
       if (value !== undefined) {
         searchParams.append(key, String(value));
       }
@@ -618,6 +685,7 @@ export async function GetRoomMessages({ pathParams: types.GetRoomMessagesPathPar
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "GET"
   });
   
@@ -628,14 +696,16 @@ export async function GetRoomMessages({ pathParams: types.GetRoomMessagesPathPar
   return response.json() as types.GetRoomMessagesSuccessResponse;
 }
 
-export async function AskAI({ requestBody: types.AskAIRequestBody }): Promise<types.AskAISuccessResponse> {
+export async function askAI(params: { body: types.AskAIRequestBody; init?: RequestInit }): Promise<types.AskAISuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/ai/ask";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {
@@ -645,14 +715,16 @@ export async function AskAI({ requestBody: types.AskAIRequestBody }): Promise<ty
   return response.json() as types.AskAISuccessResponse;
 }
 
-export async function GenerateDescription({ requestBody: types.GenerateDescriptionRequestBody }): Promise<types.GenerateDescriptionSuccessResponse> {
+export async function generateDescription(params: { body: types.GenerateDescriptionRequestBody; init?: RequestInit }): Promise<types.GenerateDescriptionSuccessResponse> {
+  const { body, init } = params;
   const url = "/v1/ai/description";
-  const fullUrl = url;
+    const fullUrl = url;
 
   const response = await fetchClient(fullUrl, {
+    ...init,
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestBody)
+    headers: { "Content-Type": "application/json", ...init?.headers },
+    body: JSON.stringify(body)
   });
   
   if (!response.ok) {

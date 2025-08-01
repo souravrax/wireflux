@@ -19,7 +19,7 @@ function generateImports(config: WirefluxConfig[0]): string {
 	const relativePath = getRelativePath(config.output, config.fetchClient);
 	const imports = [
 		`import fetchClient from "${relativePath}";`,
-		'import * as types from "./types.js";',
+		'import type * as types from "./types.js";',
 	];
 
 	return imports.join("\n");
@@ -30,6 +30,7 @@ function generateOperationFunction(
 	_config: WirefluxConfig[0],
 ): string {
 	const { fnName, method, path, parameters, requestBody } = operation;
+	const camelFnName = fnName.charAt(0).toLowerCase() + fnName.slice(1);
 
 	// Determine parameter types
 	const pathParams = parameters?.filter((p) => p.in === "path") || [];
@@ -40,15 +41,27 @@ function generateOperationFunction(
 	const hasRequestBody = !!requestBody;
 
 	// Generate function signature
-	const params = [];
-	if (hasPathParams)
-		params.push(`pathParams: types.${capitalize(fnName)}PathParams`);
-	if (hasQueryParams)
-		params.push(`queryParams?: types.${capitalize(fnName)}QueryParams`);
-	if (hasRequestBody)
-		params.push(`requestBody: types.${capitalize(fnName)}RequestBody`);
+	const paramsForSignature: string[] = [];
+	const paramsForDestructuring: string[] = [];
 
-	const paramSignature = params.length > 0 ? `{ ${params.join(", ")} }` : "";
+	if (hasPathParams) {
+		paramsForDestructuring.push("path");
+		paramsForSignature.push(`path: types.${capitalize(fnName)}PathParams`);
+	}
+	if (hasQueryParams) {
+		paramsForDestructuring.push("query");
+		paramsForSignature.push(`query?: types.${capitalize(fnName)}QueryParams`);
+	}
+	if (hasRequestBody) {
+		paramsForDestructuring.push("body");
+		paramsForSignature.push(`body: types.${capitalize(fnName)}RequestBody`);
+	}
+
+	paramsForSignature.push("init?: RequestInit");
+	paramsForDestructuring.push("init");
+
+	const finalParams = `params: { ${paramsForSignature.join("; ")} }`;
+
 	const responseType = `types.${capitalize(fnName)}SuccessResponse`;
 
 	// Generate URL construction
@@ -58,52 +71,34 @@ function generateOperationFunction(
 		for (const param of pathParams) {
 			urlConstruction = urlConstruction.replace(
 				`{${param.name}}`,
-				`\${pathParams.${param.name}}`,
+				`\${path.${param.name}}`,
 			);
 		}
 		urlConstruction = `\`${urlConstruction.replace(/"/g, "")}\``;
 	}
 
+	const destructuredParams = `const { ${paramsForDestructuring.join(", ")} } = params;`;
+
 	// Generate query string handling
 	const queryHandling = hasQueryParams
-		? `  const searchParams = new URLSearchParams();
-  if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value]) => {
-      if (value !== undefined) {
-        searchParams.append(key, String(value));
-      }
-    });
-  }
-  const queryString = searchParams.toString();
-  const fullUrl = queryString ? \`\${url}?\${queryString}\` : url;`
+		? `  const searchParams = new URLSearchParams();\n  if (query) {\n    Object.entries(query).forEach(([key, value]) => {\n      if (value !== undefined) {\n        searchParams.append(key, String(value));\n      }\n    });\n  }\n  const queryString = searchParams.toString();\n  const fullUrl = queryString ? \`\${url}?\${queryString}\` : url;`
 		: "  const fullUrl = url;";
 
 	// Generate fetch options
-	const fetchOptions = [];
+	const fetchOptions: string[] = [];
 	fetchOptions.push(`method: "${method}"`);
 
 	if (hasRequestBody) {
-		fetchOptions.push('headers: { "Content-Type": "application/json" }');
-		fetchOptions.push("body: JSON.stringify(requestBody)");
+		fetchOptions.push(
+			'headers: { "Content-Type": "application/json", ...init?.headers }',
+		);
+		fetchOptions.push("body: JSON.stringify(body)");
 	}
 
-	const fetchOptionsString = `{
-    ${fetchOptions.join(",\n    ")}
-  }`;
+	const fetchOptionsString = `{\n    ...init,\n    ${fetchOptions.join(",\n    ")}\n  }`;
 
 	// Generate function body
-	const functionBody = `export async function ${fnName}(${paramSignature}): Promise<${responseType}> {
-  const url = ${urlConstruction};
-${queryHandling}
-
-  const response = await fetchClient(fullUrl, ${fetchOptionsString});
-  
-  if (!response.ok) {
-    throw new Error(\`HTTP error! status: \${response.status}\`);
-  }
-  
-  return response.json() as ${responseType};
-}`;
+	const functionBody = `export async function ${camelFnName}(${finalParams}): Promise<${responseType}> {\n  ${destructuredParams}\n  const url = ${urlConstruction};\n  ${queryHandling}\n\n  const response = await fetchClient(fullUrl, ${fetchOptionsString});\n  \n  if (!response.ok) {\n    throw new Error(\`HTTP error! status: \${response.status}\`);\n  }\n  \n  return response.json() as ${responseType};\n}`;
 
 	return functionBody;
 }

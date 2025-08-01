@@ -20,6 +20,7 @@ import * as types from "./types.js";`;
 
 function generateSwrHook(operation: GenerationContext): string {
 	const { fnName, parameters } = operation;
+	const camelFnName = fnName.charAt(0).toLowerCase() + fnName.slice(1);
 
 	const pathParams = parameters?.filter((p) => p.in === "path") || [];
 	const queryParams = parameters?.filter((p) => p.in === "query") || [];
@@ -27,38 +28,33 @@ function generateSwrHook(operation: GenerationContext): string {
 	const hasPathParams = pathParams.length > 0;
 	const hasQueryParams = queryParams.length > 0;
 
-	// Generate hook parameters
-	const params = [];
+	// Hook parameters
+	const hookParamsList: string[] = [];
 	if (hasPathParams)
-		params.push(`pathParams: types.${capitalize(fnName)}PathParams`);
+		hookParamsList.push(`path: types.${capitalize(fnName)}PathParams`);
 	if (hasQueryParams)
-		params.push(`queryParams?: types.${capitalize(fnName)}QueryParams`);
+		hookParamsList.push(`query?: types.${capitalize(fnName)}QueryParams`);
 
-	const paramSignature = params.length > 0 ? `{ ${params.join(", ")} }` : "";
+	const paramsType =
+		hookParamsList.length > 0 ? `{ ${hookParamsList.join("; ")} }` : "void";
+	const paramsRequired = hasPathParams;
+	const paramSignature = `params${paramsRequired ? "" : "?"}: ${paramsType}`;
+
 	const responseType = `types.${capitalize(fnName)}SuccessResponse`;
 
-	// Generate SWR key
-	const keyParts = [];
-	keyParts.push(`"${fnName}"`);
-	if (hasPathParams) keyParts.push("pathParams");
-	if (hasQueryParams) keyParts.push("queryParams");
+	// SWR key
+	const keyParts = [`'${camelFnName}'`];
+	if (hasPathParams) keyParts.push("params.path");
+	if (hasQueryParams) keyParts.push("params.query");
+	const swrKey = `[${keyParts.join(", ")}]`;
 
-	const swrKey = keyParts.length > 1 ? `[${keyParts.join(", ")}]` : keyParts[0];
-
-	// Generate fetcher function call
-	const fetcherArgs = [];
-	if (hasPathParams) fetcherArgs.push("pathParams");
-	if (hasQueryParams) fetcherArgs.push("queryParams");
-
-	const fetcherCall =
-		fetcherArgs.length > 0
-			? `operations.${fnName}({ ${fetcherArgs.join(", ")} })`
-			: `operations.${fnName}()`;
+	// Fetcher function call
+	const fetcherCall = `() => operations.${camelFnName}(params)`;
 
 	const hookBody = `export function use${capitalize(fnName)}(${paramSignature}) {
   return useSWR<${responseType}>(
     ${swrKey},
-    () => ${fetcherCall}
+    ${fetcherCall}
   );
 }`;
 
