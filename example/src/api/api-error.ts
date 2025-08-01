@@ -2,7 +2,7 @@
 // This handles all error responses uniformly across all operations
 
 // ApiError class with useful methods (also serves as the type)
-export class ApiError extends Error {
+export default class ApiError extends Error {
   readonly status: number;
   readonly code:
     | 'BAD_REQUEST'

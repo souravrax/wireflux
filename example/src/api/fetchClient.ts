@@ -1,17 +1,10 @@
 import type { Result } from 'wireflux';
-import { ApiError } from './src/api/api-error';
+import { ApiError } from './api-error';
 
-async function getHeaders() {
-  // In a real app, you might get headers from your framework
-  // For this example, we'll just return null
-  return null;
-}
-
-export async function fetchClient<T>(
+export default async function fetchClient<T>(
   url: string,
   init?: RequestInit
 ): Promise<Result<T>> {
-  const _headers = await getHeaders();
   try {
     const response = await fetch(url, {
       ...init,
